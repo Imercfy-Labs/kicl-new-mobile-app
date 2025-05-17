@@ -44,14 +44,16 @@ async function handleResponse<T>(response: Response): Promise<ApiResponse<T>> {
 export async function login(email: string, password: string): Promise<ApiResponse<LoginResponse>> {
   try {
     console.log('Making login request with:', { email, password });
+    console.log('API URL:', API_URL);
     
     const response = await fetch(`${API_URL}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'Origin': typeof window !== 'undefined' ? window.location.origin : 'http://localhost:8081'
       },
-      credentials: 'same-origin',
+      mode: 'cors',
       body: JSON.stringify({ email, password }),
     });
 
@@ -60,7 +62,7 @@ export async function login(email: string, password: string): Promise<ApiRespons
     return result;
   } catch (error: any) {
     console.error('Login error:', error);
-    return { error: error.message };
+    return { error: error.message || 'Failed to connect to the server' };
   }
 }
 
@@ -70,15 +72,16 @@ export async function resetPassword(email: string): Promise<ApiResponse<{ messag
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'Origin': typeof window !== 'undefined' ? window.location.origin : 'http://localhost:8081'
       },
-      credentials: 'same-origin',
+      mode: 'cors',
       body: JSON.stringify({ email }),
     });
 
     return await handleResponse<{ message: string }>(response);
   } catch (error: any) {
-    return { error: error.message };
+    return { error: error.message || 'Failed to connect to the server' };
   }
 }
 
@@ -88,14 +91,15 @@ export async function verifyOTP(email: string, otp: string): Promise<ApiResponse
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'Origin': typeof window !== 'undefined' ? window.location.origin : 'http://localhost:8081'
       },
-      credentials: 'same-origin',
+      mode: 'cors',
       body: JSON.stringify({ email, otp }),
     });
 
     return await handleResponse<{ message: string }>(response);
   } catch (error: any) {
-    return { error: error.message };
+    return { error: error.message || 'Failed to connect to the server' };
   }
 }

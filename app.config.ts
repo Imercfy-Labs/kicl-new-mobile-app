@@ -28,10 +28,11 @@ export default {
     package: 'com.kicl.mobile'
   },
   web: {
-    favicon: './assets/images/favicon.png'
+    favicon: './assets/images/favicon.png',
+    bundler: 'metro'
   },
   extra: {
-    apiUrl: process.env.EXPO_PUBLIC_API_URL
+    apiUrl: process.env.EXPO_PUBLIC_API_URL || 'https://devkicl.duckdns.org/api'
   },
   plugins: []
 };
