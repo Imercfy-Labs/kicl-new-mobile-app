@@ -15,7 +15,7 @@ interface AuthContextType {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
-  signup: (data: { name: string; email: string; password: string }) => Promise<void>;
+  signup?: (data: { name: string; email: string; password: string }) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -23,7 +23,6 @@ const AuthContext = createContext<AuthContextType>({
   isLoading: false,
   login: async () => {},
   logout: () => {},
-  signup: async () => {},
 });
 
 export function useAuth() {
@@ -75,42 +74,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const signup = async (data: { name: string; email: string; password: string }) => {
-    setIsLoading(true);
-    try {
-      const response = await api.register(data);
-      
-      if (response.error) {
-        throw new Error(response.error);
-      }
-
-      if (response.data) {
-        const { token, user } = response.data;
-        
-        await secureStore.setItem('token', token);
-        await secureStore.setItem('user', JSON.stringify({
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          role: 'sales_person',
-          branch_id: user.branch_id
-        }));
-        
-        setUser({
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          role: 'sales_person',
-          branch_id: user.branch_id
-        });
-      }
-    } catch (error: any) {
-      throw new Error(error.message || 'Registration failed');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const logout = async () => {
     try {
       await secureStore.removeItem('token');
@@ -122,7 +85,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, logout, signup }}>
+    <AuthContext.Provider value={{ user, isLoading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

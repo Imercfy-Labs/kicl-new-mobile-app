@@ -18,18 +18,6 @@ interface LoginResponse {
   };
 }
 
-interface RegisterResponse {
-  message: string;
-  token: string;
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    role_id: string;
-    branch_id: string;
-  };
-}
-
 async function handleResponse<T>(response: Response): Promise<ApiResponse<T>> {
   try {
     const contentType = response.headers.get('content-type');
@@ -63,36 +51,6 @@ export async function login(email: string, password: string): Promise<ApiRespons
     return await handleResponse<LoginResponse>(response);
   } catch (error: any) {
     console.error('Login error:', error);
-    return { error: error.message || 'Failed to connect to the server' };
-  }
-}
-
-export async function register(data: { 
-  name: string; 
-  email: string; 
-  password: string;
-  role_id?: string;
-  branch_id?: string;
-}): Promise<ApiResponse<RegisterResponse>> {
-  try {
-    const response = await fetch(`${API_URL}/register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Origin': window.location.origin
-      },
-      mode: 'cors',
-      body: JSON.stringify({
-        ...data,
-        role_id: data.role_id || '2', // Default to sales person role if not specified
-        branch_id: data.branch_id || '1' // Default branch if not specified
-      }),
-    });
-
-    return await handleResponse<RegisterResponse>(response);
-  } catch (error: any) {
-    console.error('Registration error:', error);
     return { error: error.message || 'Failed to connect to the server' };
   }
 }
