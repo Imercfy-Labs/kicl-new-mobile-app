@@ -23,7 +23,7 @@ export default function LoginScreen() {
       <Text style={styles.title}>Welcome!</Text>
       
       <View style={styles.form}>
-        <Text style={styles.label}>Login ID:</Text>
+        <Text style={styles.label}>Email ID:</Text>
         <TextInput
           style={styles.input}
           placeholder="Enter your Email ID"
