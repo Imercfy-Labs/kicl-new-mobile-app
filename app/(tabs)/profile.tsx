@@ -26,7 +26,6 @@ export default function ProfileScreen() {
   return (
     <GradientBackground>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-        {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity onPress={() => router.back()}>
             <ArrowLeft size={24} color="#000" />
@@ -37,7 +36,6 @@ export default function ProfileScreen() {
           </TouchableOpacity>
         </View>
 
-        {/* Profile Avatar */}
         <View style={styles.avatarSection}>
           <View style={styles.avatarContainer}>
             <Text style={styles.avatarText}>
@@ -48,14 +46,12 @@ export default function ProfileScreen() {
           <Text style={styles.userRole}>{user?.role || 'Role not specified'}</Text>
         </View>
 
-        {/* Profile Information */}
         <View style={styles.infoSection}>
           <ProfileField label="Name" value={user?.name || ''} />
           <ProfileField label="Email" value={user?.email || ''} />
           <ProfileField label="Branch ID" value={user?.branch_id || ''} />
         </View>
 
-        {/* Logout Button */}
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
           <LogOut size={20} color="#FF3B30" />
           <Text style={styles.logoutText}>Logout</Text>
