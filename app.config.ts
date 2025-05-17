@@ -3,7 +3,7 @@ export default {
   slug: 'kicl-mobile-app',
   version: '1.0.0',
   orientation: 'portrait',
-  icon: './assets/icon.png',
+  icon: './assets/images/icon.png',
   userInterfaceStyle: 'light',
   splash: {
     image: './assets/splash.png',
@@ -22,13 +22,13 @@ export default {
   },
   android: {
     adaptiveIcon: {
-      foregroundImage: './assets/adaptive-icon.png',
+      foregroundImage: './assets/images/adaptive-icon.png',
       backgroundColor: '#FFFFFF'
     },
     package: 'com.kicl.mobile'
   },
   web: {
-    favicon: './assets/favicon.png'
+    favicon: './assets/images/favicon.png'
   },
   extra: {
     apiUrl: process.env.EXPO_PUBLIC_API_URL
