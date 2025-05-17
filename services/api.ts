@@ -43,6 +43,7 @@ export async function login(email: string, password: string): Promise<ApiRespons
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
+      credentials: 'include',
       body: JSON.stringify({ email, password }),
     });
 
@@ -61,6 +62,7 @@ export async function resetPassword(email: string): Promise<ApiResponse<{ messag
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
+      credentials: 'include',
       body: JSON.stringify({ email }),
     });
 
@@ -78,6 +80,7 @@ export async function verifyOTP(email: string, otp: string): Promise<ApiResponse
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
+      credentials: 'include',
       body: JSON.stringify({ email, otp }),
     });
 
