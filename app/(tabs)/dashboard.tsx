@@ -4,6 +4,7 @@ import { useAuth } from '../auth/AuthContext';
 import { Menu, Bell, User } from 'lucide-react-native';
 import Logo from '@/components/Logo';
 import { DrawerContext } from './_layout';
+import { useRouter } from 'expo-router';
 
 export default function DashboardScreen() {
   const { user } = useAuth();
@@ -11,6 +12,7 @@ export default function DashboardScreen() {
   const [lastInTime, setLastInTime] = useState('--:--');
   const [lastOutTime, setLastOutTime] = useState('--:--');
   const { toggleDrawer } = React.useContext(DrawerContext);
+  const router = useRouter();
 
   const getCurrentTime = () => {
     const now = new Date();
@@ -51,7 +53,10 @@ export default function DashboardScreen() {
           <TouchableOpacity style={styles.iconButton}>
             <Bell size={24} color="#000" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.iconButton}>
+          <TouchableOpacity 
+            style={styles.iconButton}
+            onPress={() => router.push('/profile')}
+          >
             <User size={24} color="#000" />
           </TouchableOpacity>
         </View>
