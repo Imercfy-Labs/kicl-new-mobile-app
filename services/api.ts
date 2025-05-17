@@ -10,10 +10,11 @@ interface ApiResponse<T> {
 interface LoginResponse {
   token: string;
   user: {
-    id: string;
+    id: any;
     name: string;
-    employeeId: string;
     email: string;
+    role: string;
+    branch_id: any;
   };
 }
 
