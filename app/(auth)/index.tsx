@@ -4,14 +4,14 @@ import { useRouter } from 'expo-router';
 import { useAuth } from '../auth/AuthContext';
 
 export default function LoginScreen() {
-  const [loginId, setLoginId] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
   const { login, isLoading } = useAuth();
 
   const handleLogin = async () => {
     try {
-      await login(loginId, password);
+      await login(email, password);
       router.replace('/(tabs)/');
     } catch (error) {
       // Error is handled in AuthContext
@@ -28,7 +28,7 @@ export default function LoginScreen() {
           style={styles.input}
           placeholder="Enter your Email ID"
           value={loginId}
-          onChangeText={setLoginId}
+          onChangeText={setEmail}
           autoCapitalize="none"
         />
 
