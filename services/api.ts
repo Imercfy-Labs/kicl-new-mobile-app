@@ -1,6 +1,6 @@
 import Constants from 'expo-constants';
 
-const API_URL = Constants.expoConfig?.extra?.apiUrl || 'http://devkicl.duckdns.org/api';
+const API_URL = Constants.expoConfig?.extra?.apiUrl || 'https://devkicl.duckdns.org/api';
 
 interface ApiResponse<T> {
   data?: T;
@@ -41,9 +41,10 @@ export async function login(email: string, password: string): Promise<ApiRespons
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'Origin': window.location.origin
       },
-      credentials: 'include',
+      mode: 'cors',
       body: JSON.stringify({ email, password }),
     });
 
@@ -60,9 +61,10 @@ export async function resetPassword(email: string): Promise<ApiResponse<{ messag
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'Origin': window.location.origin
       },
-      credentials: 'include',
+      mode: 'cors',
       body: JSON.stringify({ email }),
     });
 
@@ -78,9 +80,10 @@ export async function verifyOTP(email: string, otp: string): Promise<ApiResponse
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'Origin': window.location.origin
       },
-      credentials: 'include',
+      mode: 'cors',
       body: JSON.stringify({ email, otp }),
     });
 
