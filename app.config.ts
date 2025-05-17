@@ -6,7 +6,7 @@ export default {
   icon: './assets/images/icon.png',
   userInterfaceStyle: 'light',
   splash: {
-    image: './assets/splash.png',
+    image: './assets/images/icon.png',
     resizeMode: 'contain',
     backgroundColor: '#ffffff'
   },
