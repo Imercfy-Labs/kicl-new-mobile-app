@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, createContext, useContext } from 'react';
 import { Tabs } from 'expo-router';
 import { View, TouchableOpacity, Animated, Dimensions, StyleSheet } from 'react-native';
-import { LayoutDashboard, Users, Package, ClipboardList, Chrome as Home, IndianRupee } from 'lucide-react-native';
+import { LayoutDashboard, Users, Package, ClipboardList, Chrome as Home, IndianRupee, User } from 'lucide-react-native';
 import { useAuth } from '../auth/AuthContext';
 import SideMenu from '@/components/SideMenu';
 
@@ -108,6 +108,13 @@ export default function TabLayout() {
                 tabBarIcon: ({ color, size }) => <IndianRupee color={color} size={size} />,
               }}
             />
+            <Tabs.Screen
+              name="profile"
+              options={{
+                title: 'Profile',
+                tabBarIcon: ({ color, size }) => <User color={color} size={size} />,
+              }}
+            />
           </Tabs>
         </Animated.View>
 
@@ -122,7 +129,7 @@ export default function TabLayout() {
             activePath=""
             userInfo={{
               name: user.name || 'Username',
-              employeeId: user.employeeId || 'EmpID',
+              employeeId: user.branch_id || 'Branch ID',
             }}
             onClose={() => setIsDrawerOpen(false)}
           />
