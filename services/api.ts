@@ -36,7 +36,7 @@ export async function login(loginId: string, password: string): Promise<ApiRespo
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ loginId, password }),
+      body: JSON.stringify({ email, password }),
     });
 
     return await handleResponse<LoginResponse>(response);
