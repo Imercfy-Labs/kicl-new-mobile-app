@@ -29,7 +29,7 @@ async function handleResponse<T>(response: Response): Promise<ApiResponse<T>> {
   return { data: data as T };
 }
 
-export async function login(loginId: string, password: string): Promise<ApiResponse<LoginResponse>> {
+export async function login(email: string, password: string): Promise<ApiResponse<LoginResponse>> {
   try {
     const response = await fetch(`${API_URL}/login`, {
       method: 'POST',
