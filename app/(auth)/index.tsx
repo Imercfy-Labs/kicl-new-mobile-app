@@ -6,15 +6,17 @@ import { useAuth } from '../auth/AuthContext';
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const router = useRouter();
   const { login, isLoading } = useAuth();
 
   const handleLogin = async () => {
     try {
+      setError('');
       await login(email, password);
       router.replace('/(tabs)/');
-    } catch (error) {
-      // Error is handled in AuthContext
+    } catch (error: any) {
+      setError(error.message || 'Invalid email or password');
     }
   };
 
@@ -23,22 +25,30 @@ export default function LoginScreen() {
       <Text style={styles.title}>Welcome!</Text>
       
       <View style={styles.form}>
+        {error ? <Text style={styles.errorText}>{error}</Text> : null}
+        
         <Text style={styles.label}>Email:</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, error && styles.inputError]}
           placeholder="Enter your email"
           value={email}
-          onChangeText={setEmail}
+          onChangeText={(text) => {
+            setEmail(text);
+            setError('');
+          }}
           autoCapitalize="none"
           keyboardType="email-address"
         />
 
         <Text style={styles.label}>Password:</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, error && styles.inputError]}
           placeholder="Enter your Password"
           value={password}
-          onChangeText={setPassword}
+          onChangeText={(text) => {
+            setPassword(text);
+            setError('');
+          }}
           secureTextEntry
         />
 
@@ -77,6 +87,12 @@ const styles = StyleSheet.create({
   form: {
     width: '100%',
   },
+  errorText: {
+    color: '#FF3B30',
+    fontSize: 14,
+    marginBottom: 16,
+    textAlign: 'center',
+  },
   label: {
     fontSize: 16,
     fontWeight: '500',
@@ -90,6 +106,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginBottom: 20,
     fontSize: 16,
+  },
+  inputError: {
+    borderWidth: 1,
+    borderColor: '#FF3B30',
   },
   forgotPassword: {
     alignSelf: 'flex-end',

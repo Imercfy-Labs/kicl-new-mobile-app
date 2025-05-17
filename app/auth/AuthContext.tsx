@@ -1,19 +1,19 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { Alert } from 'react-native';
 import * as api from '@/services/api';
 import { secureStore } from '@/services/secureStore';
 
 interface User {
   id: string;
   name: string;
-  employeeId: string;
   email: string;
+  role: string;
+  branch_id: string;
 }
 
 interface AuthContextType {
   user: User | null;
   isLoading: boolean;
-  login: (loginId: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   signup?: (data: { name: string; email: string; password: string }) => Promise<void>;
 }
@@ -50,10 +50,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     loadStoredUser();
   }, []);
 
-  const login = async (loginId: string, password: string) => {
+  const login = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      const response = await api.login(loginId, password);
+      const response = await api.login(email, password);
       
       if (response.error) {
         throw new Error(response.error);
@@ -68,8 +68,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(user);
       }
     } catch (error: any) {
-      Alert.alert('Login Failed', error.message || 'Invalid credentials');
-      throw error;
+      throw new Error(error.message || 'Invalid email or password');
     } finally {
       setIsLoading(false);
     }
