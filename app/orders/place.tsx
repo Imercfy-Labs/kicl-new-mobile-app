@@ -48,7 +48,7 @@ const PRODUCTS = [
   },
   {
     id: '8',  // Changed from 'FERT-N06'
-    name: 'Urea Ammonium Nitrate (UAN)',
+    name: 'Urea Ammonium Nitrate',
     category: 'nitrogenous',
     price: 550,
     unit: '20L Can',
@@ -98,7 +98,7 @@ const PRODUCTS = [
   },
   {
     id: '13',  // Changed from 'FERT-P02'
-    name: 'Single Super Phosphate (SSP)',
+    name: 'Single Super Phosphate',
     category: 'phosphatic',
     price: 1200,
     unit: '50Kg Bag',
@@ -106,7 +106,7 @@ const PRODUCTS = [
   },
   {
     id: '14',  // Changed from 'FERT-P03'
-    name: 'Triple Super Phosphate (TSP)',
+    name: 'Triple Super Phosphate',
     category: 'phosphatic',
     price: 1600,
     unit: '50Kg Bag',
@@ -114,7 +114,7 @@ const PRODUCTS = [
   },
   {
     id: '15',  // Changed from 'FERT-P04'
-    name: 'Monoammonium Phosphate (MAP)',
+    name: 'Monoammonium Phosphate',
     category: 'phosphatic',
     price: 1800,
     unit: '50Kg Bag',
@@ -172,7 +172,7 @@ const PRODUCTS = [
   // Potassic Products
   {
     id: '22',  // Changed from 'FERT-K01'
-    name: 'Muriate of Potash (MOP)',
+    name: 'Muriate of Potash',
     category: 'potassic',
     price: 1700,
     unit: '50Kg Bag',
@@ -180,7 +180,7 @@ const PRODUCTS = [
   },
   {
     id: '23',  // Changed from 'FERT-K02'
-    name: 'Sulphate of Potash (SOP)',
+    name: 'Sulphate of Potash',
     category: 'potassic',
     price: 1900,
     unit: '50Kg Bag',
@@ -188,7 +188,7 @@ const PRODUCTS = [
   },
   {
     id: '24',  // Changed from 'FERT-K03'
-    name: 'Potassium Nitrate (KNO₃)',
+    name: 'Potassium Nitrate',
     category: 'potassic',
     price: 2000,
     unit: '50Kg Bag',
@@ -196,7 +196,7 @@ const PRODUCTS = [
   },
   {
     id: '25',  // Changed from 'FERT-K04'
-    name: 'Potassium Magnesium Sulphate (K-Mag)',
+    name: 'Potassium Magnesium Sulphate',
     category: 'potassic',
     price: 1850,
     unit: '50Kg Bag',
