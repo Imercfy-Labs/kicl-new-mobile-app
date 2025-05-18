@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Platform, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
-import { LogOut, ChevronRight } from 'lucide-react-native';
+import { LogOut, LayoutDashboard, Users, ClipboardList, Package, Chrome as Home, IndianRupee } from 'lucide-react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 
 interface SideMenuProps {
   activePath: string;
@@ -15,26 +16,55 @@ interface SideMenuProps {
 export default function SideMenu({ activePath, userInfo, onClose }: SideMenuProps) {
   const router = useRouter();
 
-  const MenuItem = ({ title, isActive = false, isSubItem = false, onPress }) => (
-    <TouchableOpacity 
-      style={[
-        styles.menuItem,
-        isActive && styles.activeMenuItem,
-        isSubItem && styles.subMenuItem
-      ]} 
-      onPress={onPress}
-    >
-      <Text style={[
-        styles.menuText,
-        isActive && styles.activeMenuText,
-        isSubItem && styles.subMenuText
-      ]}>
-        {title}
-      </Text>
-      {!isSubItem && <ChevronRight size={20} color={isActive ? "#fff" : "#666"} />}
-      {isActive && <View style={styles.activeIndicator} />}
-    </TouchableOpacity>
-  );
+  const MenuItem = ({ 
+    title, 
+    icon: Icon, 
+    path, 
+    isActive = false, 
+    isSubItem = false,
+    onPress 
+  }) => {
+    const content = (
+      <>
+        {!isSubItem && Icon && <Icon size={24} color={isActive ? "#000" : "#666"} />}
+        <Text style={[
+          styles.menuText,
+          isActive && !isSubItem && styles.menuTextActive,
+          isSubItem && styles.subMenuText,
+          isActive && isSubItem && styles.subMenuTextActive,
+          !isSubItem && Icon && styles.menuTextWithIcon
+        ]}>
+          {title}
+        </Text>
+        {isActive && isSubItem && <View style={styles.verticalLine} />}
+      </>
+    );
+
+    return (
+      <TouchableOpacity 
+        style={[
+          styles.menuItem,
+          isSubItem && styles.subMenuItem,
+        ]} 
+        onPress={onPress}
+      >
+        {isActive && !isSubItem ? (
+          <LinearGradient
+            colors={['#3DD39E', '#B6E388']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={[styles.menuItemContent, styles.activeMenuItem]}
+          >
+            {content}
+          </LinearGradient>
+        ) : (
+          <View style={styles.menuItemContent}>
+            {content}
+          </View>
+        )}
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -55,50 +85,108 @@ export default function SideMenu({ activePath, userInfo, onClose }: SideMenuProp
         <Text style={styles.employeeId}>Employee ID: {userInfo.employeeId}</Text>
       </View>
 
-      <ScrollView style={styles.menuContainer} showsVerticalScrollIndicator={false}>
+      <ScrollView 
+        style={styles.menuContainer}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.menuContent}
+      >
         <MenuItem 
           title="Dashboard" 
+          icon={LayoutDashboard}
+          path="/dashboard"
           isActive={activePath === '/dashboard'}
           onPress={() => {
             router.push('/dashboard');
             onClose();
           }}
         />
+        
         <MenuItem 
           title="Dealers" 
+          icon={Users}
+          path="/dealers"
           isActive={activePath === '/dealers'}
           onPress={() => {
             router.push('/dealers');
             onClose();
           }}
         />
-        {activePath === '/dealers' && (
-          <>
-            <MenuItem title="Dealer Info" isSubItem isActive />
-            <MenuItem title="Payment" isSubItem />
-            <MenuItem title="Dealer Outstanding" isSubItem />
-            <MenuItem title="Dealer History" isSubItem />
-            <MenuItem title="Credit Note" isSubItem />
-          </>
-        )}
+
         <MenuItem 
           title="Orders" 
+          icon={ClipboardList}
+          path="/orders"
           isActive={activePath.includes('/orders')}
           onPress={() => {
             router.push('/orders');
             onClose();
           }}
         />
+        
         {activePath.includes('/orders') && (
-          <>
-            <MenuItem title="Place Order" isSubItem isActive />
-            <MenuItem title="My Orders" isSubItem />
-            <MenuItem title="Track Order" isSubItem />
-          </>
+          <View style={styles.subMenuContainer}>
+            <MenuItem 
+              title="Place Order" 
+              isSubItem 
+              isActive={activePath === '/orders/place'} 
+              onPress={() => {
+                router.push('/orders/place');
+                onClose();
+              }} 
+            />
+            <MenuItem 
+              title="My Orders" 
+              isSubItem 
+              isActive={activePath === '/orders/my-orders'} 
+              onPress={() => {
+                router.push('/orders/my-orders');
+                onClose();
+              }} 
+            />
+            <MenuItem 
+              title="Track Order" 
+              isSubItem 
+              isActive={activePath === '/orders/track'} 
+              onPress={() => {
+                router.push('/orders/track');
+                onClose();
+              }} 
+            />
+          </View>
         )}
-        <MenuItem title="Inventory" />
-        <MenuItem title="Field Development" />
-        <MenuItem title="Settlement" />
+
+        <MenuItem 
+          title="Inventory" 
+          icon={Package}
+          path="/inventory"
+          isActive={activePath === '/inventory'}
+          onPress={() => {
+            router.push('/inventory');
+            onClose();
+          }}
+        />
+
+        <MenuItem 
+          title="Field Development" 
+          icon={Home}
+          path="/field-development"
+          isActive={activePath === '/field-development'}
+          onPress={() => {
+            router.push('/field-development');
+            onClose();
+          }}
+        />
+
+        <MenuItem 
+          title="Settlement" 
+          icon={IndianRupee}
+          path="/settlement"
+          isActive={activePath === '/settlement'}
+          onPress={() => {
+            router.push('/settlement');
+            onClose();
+          }}
+        />
       </ScrollView>
 
       <TouchableOpacity 
@@ -108,7 +196,7 @@ export default function SideMenu({ activePath, userInfo, onClose }: SideMenuProp
           onClose();
         }}
       >
-        <LogOut size={20} color="#000" />
+        <LogOut size={24} color="#000" />
         <Text style={styles.logoutText}>Log Out</Text>
       </TouchableOpacity>
     </View>
@@ -129,7 +217,6 @@ const styles = StyleSheet.create({
   logo: {
     width: 60,
     height: 60,
-    borderRadius: 30,
     marginBottom: 10,
   },
   logoText: {
@@ -174,40 +261,55 @@ const styles = StyleSheet.create({
   },
   menuContainer: {
     flex: 1,
-    paddingTop: 10,
+  },
+  menuContent: {
+    paddingTop: 16,
   },
   menuItem: {
-    paddingVertical: 12,
-    paddingHorizontal: 20,
+    width: '100%',
+  },
+  menuItemContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
   },
   activeMenuItem: {
-    backgroundColor: '#3DD39E',
+    borderRadius: 0,
   },
-  activeIndicator: {
-    width: 4,
-    height: '100%',
-    backgroundColor: '#fff',
-    position: 'absolute',
-    right: 0,
+  subMenuContainer: {
+    backgroundColor: 'rgba(140, 198, 63, 0.1)',
   },
   subMenuItem: {
-    paddingLeft: 40,
-    backgroundColor: 'rgba(61, 211, 158, 0.1)',
+    paddingLeft: 56,
+    position: 'relative',
   },
   menuText: {
     fontSize: 16,
-    color: '#333',
+    color: '#666',
   },
-  activeMenuText: {
-    color: '#fff',
+  menuTextWithIcon: {
+    marginLeft: 12,
+  },
+  menuTextActive: {
+    color: '#000',
     fontWeight: '500',
   },
   subMenuText: {
     fontSize: 14,
     color: '#666',
+  },
+  subMenuTextActive: {
+    color: '#000',
+    fontWeight: '500',
+  },
+  verticalLine: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: 4,
+    backgroundColor: '#8CC63F',
   },
   logoutButton: {
     flexDirection: 'row',
@@ -219,6 +321,9 @@ const styles = StyleSheet.create({
   logoutText: {
     marginLeft: 12,
     fontSize: 16,
-    color: '#333',
+    fontWeight: '500',
+    color: '#000',
   },
 });
+
+export default SideMenu
