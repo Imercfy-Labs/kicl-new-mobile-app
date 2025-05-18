@@ -31,14 +31,6 @@ const PRODUCTS = [
     available: 3000,
   },
   {
-    id: '5',  // Changed from 'FERT-N03'
-    name: 'Calcium Ammonium Nitrate (CAN)',
-    category: 'nitrogenous',
-    price: 800,
-    unit: '50Kg Bag',
-    available: 2500,
-  },
-  {
     id: '6',  // Changed from 'FERT-N04'
     name: 'Ammonium Nitrate',
     category: 'nitrogenous',
