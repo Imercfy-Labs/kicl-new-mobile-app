@@ -610,14 +610,12 @@ export default function PlaceOrderScreen() {
             <TouchableOpacity 
               style={styles.continueButton}
               onPress={() => {
-                if (cart.length > 0) {
-                  router.push({
-                    pathname: '/orders/summary',
-                    params: {
-                      cart: encodeURIComponent(JSON.stringify(cart))
-                    }
-                  });
-                }
+                router.push({
+                  pathname: '/orders/summary',
+                  params: {
+                    cart: encodeURIComponent(JSON.stringify(cart))
+                  }
+                });
               }}
             >
               <Text style={styles.continueButtonText}>Continue</Text>
@@ -667,6 +665,27 @@ const styles = StyleSheet.create({
     fontSize: Platform.OS === 'web' ? 20 : 18,
     fontWeight: '600',
     color: '#000',
+  },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  cartBadge: {
+    position: 'absolute',
+    top: -5,
+    right: -5,
+    backgroundColor: '#FF3B30',
+    borderRadius: 10,
+    minWidth: 20,
+    height: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 4,
+  },
+  cartBadgeText: {
+    color: '#fff',
+    fontSize: 12,
+    fontWeight: '600',
   },
   sectionTitle: {
     fontSize: Platform.OS === 'web' ? 18 : 16,
@@ -913,7 +932,7 @@ const styles = StyleSheet.create({
     maxHeight: '80%',
   },
   cartModalHeader: {
-    flexDirection: 'row',
+    flexDirection:  'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 20,
@@ -948,7 +967,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   cartItemQuantity: {
-    fontSize:  14,
+    fontSize: 14,
     color: '#666',
   },
   cartItemActions: {
