@@ -7,10 +7,11 @@ import { useRouter } from 'expo-router';
 export default function OrdersScreen() {
   const router = useRouter();
   const windowHeight = Dimensions.get('window').height;
+  const isWeb = Platform.OS === 'web';
   
   return (
     <GradientBackground>
-      <View style={[styles.container, { minHeight: windowHeight }]}>
+      <View style={[styles.container, { height: windowHeight }]}>
         <View style={styles.header}>
           <Text style={styles.title}>Orders</Text>
         </View>
@@ -63,27 +64,30 @@ export default function OrdersScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: Platform.OS === 'web' ? 24 : 16,
     overflow: 'hidden',
   },
   header: {
-    paddingVertical: Platform.OS === 'web' ? 16 : 8,
+    paddingVertical: Platform.OS === 'web' ? 24 : 16,
   },
   title: {
-    fontSize: Platform.OS === 'web' ? 24 : 20,
+    fontSize: Platform.OS === 'web' ? 28 : 24,
     fontWeight: 'bold',
     color: '#000',
   },
   actionsContainer: {
     flex: 1,
     justifyContent: 'center',
-    gap: Platform.OS === 'web' ? 20 : 12,
+    gap: Platform.OS === 'web' ? 24 : 16,
+    maxWidth: Platform.OS === 'web' ? 600 : '100%',
+    alignSelf: 'center',
+    width: '100%',
   },
   actionCard: {
-    flexDirection: Platform.OS === 'web' ? 'column' : 'row',
-    alignItems: Platform.OS === 'web' ? 'flex-start' : 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: '#fff',
-    borderRadius: 12,
+    borderRadius: 16,
     padding: Platform.OS === 'web' ? 24 : 16,
     elevation: 2,
     shadowColor: '#000',
@@ -93,27 +97,28 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.1,
     shadowRadius: 4,
+    transform: [{ scale: 1 }],
+    transition: Platform.OS === 'web' ? 'transform 0.2s ease-in-out' : undefined,
   },
   iconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: Platform.OS === 'web' ? 16 : 0,
-    marginRight: Platform.OS === 'web' ? 0 : 16,
+    marginRight: 20,
   },
   actionTextContainer: {
-    flex: Platform.OS === 'web' ? 0 : 1,
+    flex: 1,
   },
   actionTitle: {
-    fontSize: Platform.OS === 'web' ? 18 : 16,
+    fontSize: Platform.OS === 'web' ? 20 : 18,
     fontWeight: '600',
     color: '#333',
-    marginBottom: 4,
+    marginBottom: 6,
   },
   actionSubtitle: {
-    fontSize: 14,
+    fontSize: Platform.OS === 'web' ? 16 : 14,
     color: '#666',
   },
 });
