@@ -46,13 +46,19 @@ export default function DashboardScreen() {
   return (
     <View style={[styles.container, { height: windowHeight }]}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={toggleDrawer} style={styles.iconButton}>
-          <Menu size={24} color="#000" />
-        </TouchableOpacity>
+        <View style={styles.headerLeft}>
+          <TouchableOpacity onPress={toggleDrawer} style={styles.iconButton}>
+            <Menu size={24} color="#000" />
+          </TouchableOpacity>
+        </View>
+        
         <Logo size="small" showText={false} />
-        <TouchableOpacity style={styles.iconButton}>
-          <Bell size={24} color="#000" />
-        </TouchableOpacity>
+        
+        <View style={styles.headerRight}>
+          <TouchableOpacity style={styles.iconButton}>
+            <Bell size={24} color="#000" />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <ScrollView 
@@ -132,6 +138,16 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 3,
   },
+  headerLeft: {
+    flex: 1,
+    alignItems: 'flex-start',
+  },
+  headerRight: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
   iconButton: {
     width: 40,
     height: 40,
@@ -139,6 +155,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
   },
   scrollContainer: {
     flex: 1,
