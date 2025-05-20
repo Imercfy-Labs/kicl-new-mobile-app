@@ -1,19 +1,30 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Platform, Dimensions, ScrollView } from 'react-native';
 import GradientBackground from '@/components/GradientBackground';
-import { ShoppingCart, ClipboardCheck, Truck as TruckDelivery } from 'lucide-react-native';
+import { ShoppingCart, ClipboardCheck, Truck as TruckDelivery, Menu, Bell } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
+import { DrawerContext } from './_layout';
+import Logo from '@/components/Logo';
 
 export default function OrdersScreen() {
   const router = useRouter();
   const windowHeight = Dimensions.get('window').height;
   const isWeb = Platform.OS === 'web';
+  const { toggleDrawer } = React.useContext(DrawerContext);
   
   return (
     <GradientBackground>
       <View style={[styles.container, { height: windowHeight }]}>
         <View style={styles.header}>
-          <Text style={styles.title}>Orders</Text>
+          <TouchableOpacity onPress={toggleDrawer} style={styles.iconButton}>
+            <Menu size={24} color="#000" />
+          </TouchableOpacity>
+          <Logo size="small" showText={false} />
+          <View style={styles.headerRight}>
+            <TouchableOpacity style={styles.iconButton}>
+              <Bell size={24} color="#000" />
+            </TouchableOpacity>
+          </View>
         </View>
         
         <ScrollView 
@@ -21,6 +32,8 @@ export default function OrdersScreen() {
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
         >
+          <Text style={styles.title}>Orders</Text>
+          
           <View style={styles.actionsContainer}>
             <TouchableOpacity 
               style={styles.actionCard}
@@ -73,11 +86,15 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: Platform.OS === 'web' ? 32 : 16,
-    paddingVertical: Platform.OS === 'web' ? 28 : 16,
+    paddingTop: Platform.OS === 'ios' ? 50 : 30,
+    paddingBottom: 20,
+    backgroundColor: '#E8F5E9',
     borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
-    backgroundColor: '#fff',
+    borderBottomColor: '#D1E7DD',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -87,10 +104,24 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 3,
   },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  iconButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    marginLeft: 8,
+  },
   title: {
     fontSize: Platform.OS === 'web' ? 32 : 24,
     fontWeight: 'bold',
     color: '#000',
+    marginBottom: Platform.OS === 'web' ? 32 : 24,
   },
   scrollContainer: {
     flex: 1,

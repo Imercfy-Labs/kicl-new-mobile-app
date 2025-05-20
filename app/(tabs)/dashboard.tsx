@@ -14,7 +14,6 @@ export default function DashboardScreen() {
   const { toggleDrawer } = React.useContext(DrawerContext);
   const router = useRouter();
   const windowHeight = Dimensions.get('window').height;
-  const isWeb = Platform.OS === 'web';
 
   const getCurrentTime = () => {
     const now = new Date();
@@ -118,7 +117,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: isWeb ? 32 : 16,
+    paddingHorizontal: Platform.OS === 'web' ? 32 : 16,
     paddingTop: Platform.OS === 'ios' ? 50 : 30,
     paddingBottom: 20,
     backgroundColor: '#E8F5E9',
@@ -145,17 +144,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: isWeb ? 32 : 20,
-    paddingBottom: isWeb ? 48 : 24,
+    padding: Platform.OS === 'web' ? 32 : 20,
+    paddingBottom: Platform.OS === 'web' ? 48 : 24,
   },
   punchButton: {
-    width: isWeb ? 200 : 160,
-    height: isWeb ? 200 : 160,
-    borderRadius: isWeb ? 100 : 80,
+    width: Platform.OS === 'web' ? 200 : 160,
+    height: Platform.OS === 'web' ? 200 : 160,
+    borderRadius: Platform.OS === 'web' ? 100 : 80,
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    marginVertical: isWeb ? 32 : 20,
+    marginVertical: Platform.OS === 'web' ? 32 : 20,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -173,26 +172,26 @@ const styles = StyleSheet.create({
   },
   punchButtonText: {
     color: '#fff',
-    fontSize: isWeb ? 28 : 24,
+    fontSize: Platform.OS === 'web' ? 28 : 24,
     fontWeight: '600',
   },
   timeInfo: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 30,
-    maxWidth: isWeb ? 800 : undefined,
+    maxWidth: Platform.OS === 'web' ? 800 : undefined,
     alignSelf: 'center',
     width: '100%',
   },
   timeText: {
     color: '#666',
-    fontSize: isWeb ? 16 : 14,
+    fontSize: Platform.OS === 'web' ? 16 : 14,
   },
   sectionTitle: {
-    fontSize: isWeb ? 24 : 18,
+    fontSize: Platform.OS === 'web' ? 24 : 18,
     fontWeight: '600',
-    marginBottom: isWeb ? 24 : 20,
-    maxWidth: isWeb ? 800 : undefined,
+    marginBottom: Platform.OS === 'web' ? 24 : 20,
+    maxWidth: Platform.OS === 'web' ? 800 : undefined,
     alignSelf: 'center',
     width: '100%',
   },
@@ -200,16 +199,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'flex-start',
-    gap: isWeb ? 24 : 16,
-    maxWidth: isWeb ? 800 : undefined,
+    gap: Platform.OS === 'web' ? 24 : 16,
+    maxWidth: Platform.OS === 'web' ? 800 : undefined,
     alignSelf: 'center',
     width: '100%',
   },
   progressCard: {
-    width: isWeb ? 'calc(33.33% - 16px)' : 'calc(50% - 8px)',
+    width: Platform.OS === 'web' ? 'calc(33.33% - 16px)' : 'calc(50% - 8px)',
     backgroundColor: '#fff',
-    borderRadius: isWeb ? 20 : 16,
-    padding: isWeb ? 24 : 16,
+    borderRadius: Platform.OS === 'web' ? 20 : 16,
+    padding: Platform.OS === 'web' ? 24 : 16,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -220,12 +219,12 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   progressTitle: {
-    fontSize: isWeb ? 16 : 14,
+    fontSize: Platform.OS === 'web' ? 16 : 14,
     color: '#666',
-    marginBottom: isWeb ? 12 : 8,
+    marginBottom: Platform.OS === 'web' ? 12 : 8,
   },
   progressValue: {
-    fontSize: isWeb ? 28 : 24,
+    fontSize: Platform.OS === 'web' ? 28 : 24,
     fontWeight: 'bold',
     color: '#000',
   },
