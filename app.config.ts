@@ -22,17 +22,17 @@ export default {
   },
   android: {
     adaptiveIcon: {
-      foregroundImage: './assets/images/favicon.png',
+      // foregroundImage: './assets/images/favicon.png',
       backgroundColor: '#FFFFFF'
     },
     package: 'com.kicl.mobile'
   },
   web: {
-    favicon: './assets/images/favicon.png',
+    // favicon: './assets/images/favicon.png',
     bundler: 'metro'
   },
   extra: {
-    apiUrl: process.env.EXPO_PUBLIC_API_URL || 'http://devkicl.duckdns.org/api'
+    apiUrl: process.env.EXPO_PUBLIC_API_URL || 'https://devkicl.duckdns.org/api'
   },
   plugins: []
 };
