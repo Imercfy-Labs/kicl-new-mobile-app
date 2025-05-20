@@ -13,9 +13,9 @@ export default function AppHeader({ title, onMenuPress }: AppHeaderProps) {
   
   return (
     <View style={styles.header}>
-      <TouchableOpacity onPress={onMenuPress} style={styles.iconButton}>
+      {/* <TouchableOpacity onPress={onMenuPress} style={styles.iconButton}>
         <Menu color="#333" size={24} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       
       {title && <Text style={styles.title}>{title}</Text>}
       
