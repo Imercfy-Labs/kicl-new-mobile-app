@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Platform, ScrollView, Dimensions } from 'react-native';
 import { useAuth } from '../auth/AuthContext';
-import { Menu, Bell, User } from 'lucide-react-native';
+import { Menu, Bell } from 'lucide-react-native';
 import Logo from '@/components/Logo';
 import { DrawerContext } from './_layout';
 import { useRouter } from 'expo-router';
@@ -13,6 +13,7 @@ export default function DashboardScreen() {
   const [lastOutTime, setLastOutTime] = useState('--:--');
   const { toggleDrawer } = React.useContext(DrawerContext);
   const router = useRouter();
+  const windowHeight = Dimensions.get('window').height;
 
   const getCurrentTime = () => {
     const now = new Date();
@@ -43,26 +44,22 @@ export default function DashboardScreen() {
   );
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { height: windowHeight }]}>
       <View style={styles.header}>
         <TouchableOpacity onPress={toggleDrawer}>
           <Menu size={24} color="#000" />
         </TouchableOpacity>
         <Logo size="small" showText={false} />
-        <View style={styles.headerIcons}>
-          <TouchableOpacity style={styles.iconButton}>
-            <Bell size={24} color="#000" />
-          </TouchableOpacity>
-          <TouchableOpacity 
-            style={styles.iconButton}
-            onPress={() => router.push('/profile')}
-          >
-            <User size={24} color="#000" />
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity style={styles.iconButton}>
+          <Bell size={24} color="#000" />
+        </TouchableOpacity>
       </View>
 
-      <View style={styles.content}>
+      <ScrollView 
+        style={styles.scrollContainer}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
         <TouchableOpacity 
           style={[styles.punchButton, isPunchedIn ? styles.punchOutButton : styles.punchInButton]}
           onPress={handlePunch}
@@ -105,7 +102,7 @@ export default function DashboardScreen() {
             value="5"
           />
         </View>
-      </View>
+      </ScrollView>
     </View>
   );
 }
@@ -114,6 +111,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    overflow: 'hidden',
   },
   header: {
     flexDirection: 'row',
@@ -123,17 +121,18 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'ios' ? 50 : 30,
     paddingBottom: 20,
     backgroundColor: '#E8F5E9',
-  },
-  headerIcons: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#D1E7DD',
   },
   iconButton: {
-    marginLeft: 20,
+    padding: 8,
   },
-  content: {
+  scrollContainer: {
     flex: 1,
+  },
+  scrollContent: {
     padding: 20,
+    paddingBottom: Platform.OS === 'web' ? 40 : 20,
   },
   punchButton: {
     width: 160,
@@ -173,13 +172,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+    gap: Platform.OS === 'web' ? 24 : 16,
   },
   progressCard: {
-    width: '48%',
+    width: Platform.OS === 'web' ? 'calc(33.33% - 16px)' : 'calc(50% - 8px)',
     backgroundColor: '#fff',
     borderRadius: 12,
-    padding: 15,
-    marginBottom: 15,
+    padding: Platform.OS === 'web' ? 24 : 16,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
