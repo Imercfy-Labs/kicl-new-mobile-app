@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator, Platform } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
 import { ArrowLeft, ChevronRight } from 'lucide-react-native';
 import GradientBackground from '@/components/GradientBackground';
@@ -22,7 +22,7 @@ export default function MyOrdersScreen() {
       const data = await getOrderSummary();
       setOrders(data);
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message || 'Failed to fetch order summary');
     } finally {
       setLoading(false);
     }
@@ -42,12 +42,20 @@ export default function MyOrdersScreen() {
         <Stack.Screen 
           options={{
             headerShown: true,
+            headerStyle: {
+              backgroundColor: '#E8F5E9',
+            },
+            headerShadowVisible: true,
             headerLeft: () => (
-              <TouchableOpacity onPress={() => router.back()}>
+              <TouchableOpacity 
+                onPress={() => router.back()}
+                style={styles.headerButton}
+              >
                 <ArrowLeft size={24} color="#000" />
               </TouchableOpacity>
             ),
             headerTitle: "My Orders",
+            headerTitleStyle: styles.headerTitle,
           }}
         />
         <View style={styles.loadingContainer}>
@@ -63,12 +71,20 @@ export default function MyOrdersScreen() {
       <Stack.Screen 
         options={{
           headerShown: true,
+          headerStyle: {
+            backgroundColor: '#E8F5E9',
+          },
+          headerShadowVisible: true,
           headerLeft: () => (
-            <TouchableOpacity onPress={() => router.back()}>
+            <TouchableOpacity 
+              onPress={() => router.back()}
+              style={styles.headerButton}
+            >
               <ArrowLeft size={24} color="#000" />
             </TouchableOpacity>
           ),
           headerTitle: "My Orders",
+          headerTitleStyle: styles.headerTitle,
         }}
       />
 
@@ -138,11 +154,36 @@ export default function MyOrdersScreen() {
 }
 
 const styles = StyleSheet.create({
+  headerButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: Platform.OS === 'web' ? 16 : 8,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  headerTitle: {
+    fontSize: Platform.OS === 'web' ? 20 : 18,
+    fontWeight: '600',
+    color: '#000',
+  },
   container: {
     flex: 1,
   },
   content: {
-    padding: 16,
+    padding: Platform.OS === 'web' ? 32 : 16,
+    maxWidth: Platform.OS === 'web' ? 800 : undefined,
+    alignSelf: 'center',
+    width: '100%',
   },
   loadingContainer: {
     flex: 1,
@@ -189,9 +230,9 @@ const styles = StyleSheet.create({
   },
   orderCard: {
     backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
+    borderRadius: Platform.OS === 'web' ? 16 : 12,
+    padding: Platform.OS === 'web' ? 24 : 16,
+    marginBottom: Platform.OS === 'web' ? 24 : 12,
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -205,25 +246,25 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   orderId: {
-    fontSize: 16,
+    fontSize: Platform.OS === 'web' ? 18 : 16,
     fontWeight: '600',
     color: '#333',
   },
   orderDate: {
-    fontSize: 14,
+    fontSize: Platform.OS === 'web' ? 16 : 14,
     color: '#666',
   },
   dealerInfo: {
     marginBottom: 12,
   },
   dealerName: {
-    fontSize: 16,
+    fontSize: Platform.OS === 'web' ? 18 : 16,
     fontWeight: '500',
     color: '#333',
     marginBottom: 4,
   },
   dealerId: {
-    fontSize: 14,
+    fontSize: Platform.OS === 'web' ? 16 : 14,
     color: '#666',
   },
   productsContainer: {
@@ -240,7 +281,7 @@ const styles = StyleSheet.create({
   },
   productName: {
     flex: 1,
-    fontSize: 14,
+    fontSize: Platform.OS === 'web' ? 16 : 14,
     color: '#333',
   },
   productDetails: {
@@ -248,12 +289,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   productQuantity: {
-    fontSize: 14,
+    fontSize: Platform.OS === 'web' ? 16 : 14,
     color: '#666',
     marginRight: 12,
   },
   productPrice: {
-    fontSize: 14,
+    fontSize: Platform.OS === 'web' ? 16 : 14,
     fontWeight: '500',
     color: '#333',
     minWidth: 80,
@@ -268,7 +309,7 @@ const styles = StyleSheet.create({
     paddingTop: 12,
   },
   totalAmount: {
-    fontSize: 16,
+    fontSize: Platform.OS === 'web' ? 18 : 16,
     fontWeight: '600',
     color: '#333',
   },
