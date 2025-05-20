@@ -143,7 +143,6 @@ export default function DashboardScreen() {
           </TouchableOpacity>
         </View>
         
-        {/* <Logo size="small" showText={false} /> */}
         
         <View style={styles.headerRight}>
           <TouchableOpacity style={styles.iconButton}>
