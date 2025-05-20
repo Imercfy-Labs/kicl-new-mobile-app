@@ -494,126 +494,135 @@ export default function PlaceOrderScreen() {
         }}
       />
 
-      <View style={styles.container}>
-        <View style={styles.partyInfo}>
-          <Text style={styles.partyInfoTitle}>Party Info:</Text>
-          <View style={styles.partyInfoRow}>
-            <View style={styles.partyInfoItem}>
-              <Text style={styles.partyInfoLabel}>Name:</Text>
-              <Text style={styles.partyInfoValue}>XXXX</Text>
-            </View>
-            <View style={styles.partyInfoItem}>
-              <Text style={styles.partyInfoLabel}>ID:</Text>
-              <Text style={styles.partyInfoValue}>XXXX</Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.balance}>
-          <Text style={styles.balanceTitle}>Balance:</Text>
-          <View style={styles.balanceRow}>
-            <View style={styles.balanceItem}>
-              <Text style={styles.balanceLabel}>Utilized:</Text>
-              <Text style={styles.balanceValue}>XXXX</Text>
-            </View>
-            <View style={styles.balanceItem}>
-              <Text style={styles.balanceLabel}>Available Limit:</Text>
-              <Text style={styles.balanceValue}>XXXX</Text>
+      <View style={styles.mainContainer}>
+        <View style={styles.contentWrapper}>
+          <View style={styles.partyInfo}>
+            <Text style={styles.sectionTitle}>Party Info:</Text>
+            <View style={styles.partyInfoRow}>
+              <View style={styles.partyInfoItem}>
+                <Text style={styles.partyInfoLabel}>Name:</Text>
+                <Text style={styles.partyInfoValue}>XXXX</Text>
+              </View>
+              <View style={styles.partyInfoItem}>
+                <Text style={styles.partyInfoLabel}>ID:</Text>
+                <Text style={styles.partyInfoValue}>XXXX</Text>
+              </View>
             </View>
           </View>
-        </View>
 
-        <Text style={styles.sectionTitle}>Products Categories:</Text>
-        <View style={styles.categoriesContainer}>
-          {CATEGORIES.map(category => (
-            <TouchableOpacity
-              key={category.id}
-              style={[
-                styles.categoryChip,
-                selectedCategory === category.id && styles.categoryChipActive
-              ]}
-              onPress={() => setSelectedCategory(category.id)}
-            >
-              <Text style={[
-                styles.categoryChipText,
-                selectedCategory === category.id && styles.categoryChipTextActive
-              ]}>
-                {category.name}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-
-        <View style={styles.searchContainer}>
-          <View style={styles.searchInputContainer}>
-            <Search size={20} color="#666" />
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Search your orders"
-              value={searchQuery}
-              onChangeText={setSearchQuery}
-            />
+          <View style={styles.balance}>
+            <Text style={styles.sectionTitle}>Balance:</Text>
+            <View style={styles.balanceRow}>
+              <View style={styles.balanceItem}>
+                <Text style={styles.balanceLabel}>Utilized:</Text>
+                <Text style={styles.balanceValue}>XXXX</Text>
+              </View>
+              <View style={styles.balanceItem}>
+                <Text style={styles.balanceLabel}>Available Limit:</Text>
+                <Text style={styles.balanceValue}>XXXX</Text>
+              </View>
+            </View>
           </View>
-          <TouchableOpacity style={styles.filterButton}>
-            <Filter size={20} color="#666" />
-          </TouchableOpacity>
-        </View>
 
-        <ScrollView 
-          style={styles.productList}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.productListContent}
-        >
-          {filteredProducts.map(product => {
-            const cartItem = cart.find(item => item.id === product.id);
-            return (
+          <Text style={styles.sectionTitle}>Products Categories:</Text>
+          <ScrollView 
+            horizontal 
+            showsHorizontalScrollIndicator={false}
+            style={styles.categoriesContainer}
+            contentContainerStyle={styles.categoriesContent}
+          >
+            {CATEGORIES.map(category => (
               <TouchableOpacity
-                key={product.id}
-                style={styles.productCard}
-                onPress={() => handleProductSelect(product)}
+                key={category.id}
+                style={[
+                  styles.categoryChip,
+                  selectedCategory === category.id && styles.categoryChipActive
+                ]}
+                onPress={() => setSelectedCategory(category.id)}
               >
-                <View style={styles.productInfo}>
-                  <Text style={styles.productCardName}>{product.name}</Text>
-                  <Text style={styles.productCardId}>ID: {product.id}</Text>
-                  <Text style={styles.productCardUnit}>{product.unit}</Text>
-                  {cartItem && (
-                    <Text style={styles.productCardQuantity}>
-                      In cart: {cartItem.quantity}
-                    </Text>
-                  )}
-                </View>
-                <View style={styles.productPrice}>
-                  <Text style={styles.priceText}>₹{product.price}</Text>
-                  <TouchableOpacity 
-                    style={styles.addButton}
-                    onPress={() => handleProductSelect(product)}
-                  >
-                    <Text style={styles.addButtonText}>
-                      {cartItem ? 'Update' : 'Add'}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
+                <Text style={[
+                  styles.categoryChipText,
+                  selectedCategory === category.id && styles.categoryChipTextActive
+                ]}>
+                  {category.name}
+                </Text>
               </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
+            ))}
+          </ScrollView>
+
+          <View style={styles.searchContainer}>
+            <View style={styles.searchInputContainer}>
+              <Search size={20} color="#666" />
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Search products..."
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+              />
+            </View>
+            <TouchableOpacity style={styles.filterButton}>
+              <Filter size={20} color="#666" />
+            </TouchableOpacity>
+          </View>
+
+          <ScrollView 
+            style={styles.productList}
+            contentContainerStyle={styles.productListContent}
+            showsVerticalScrollIndicator={false}
+          >
+            {filteredProducts.map(product => {
+              const cartItem = cart.find(item => item.id === product.id);
+              return (
+                <TouchableOpacity
+                  key={product.id}
+                  style={styles.productCard}
+                  onPress={() => handleProductSelect(product)}
+                >
+                  <View style={styles.productInfo}>
+                    <Text style={styles.productCardName}>{product.name}</Text>
+                    <Text style={styles.productCardId}>ID: {product.id}</Text>
+                    <Text style={styles.productCardUnit}>{product.unit}</Text>
+                    {cartItem && (
+                      <Text style={styles.productCardQuantity}>
+                        In cart: {cartItem.quantity}
+                      </Text>
+                    )}
+                  </View>
+                  <View style={styles.productPrice}>
+                    <Text style={styles.priceText}>₹{product.price}</Text>
+                    <TouchableOpacity 
+                      style={styles.addButton}
+                      onPress={() => handleProductSelect(product)}
+                    >
+                      <Text style={styles.addButtonText}>
+                        {cartItem ? 'Update' : 'Add'}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+        </View>
 
         {cart.length > 0 && (
-          <TouchableOpacity 
-            style={styles.continueButton}
-            onPress={() => {
-              if (cart.length > 0) {
-                router.push({
-                  pathname: '/orders/summary',
-                  params: {
-                    cart: encodeURIComponent(JSON.stringify(cart))
-                  }
-                });
-              }
-            }}
-          >
-            <Text style={styles.continueButtonText}>Continue</Text>
-          </TouchableOpacity>
+          <View style={styles.footer}>
+            <TouchableOpacity 
+              style={styles.continueButton}
+              onPress={() => {
+                if (cart.length > 0) {
+                  router.push({
+                    pathname: '/orders/summary',
+                    params: {
+                      cart: encodeURIComponent(JSON.stringify(cart))
+                    }
+                  });
+                }
+              }}
+            >
+              <Text style={styles.continueButtonText}>Continue</Text>
+            </TouchableOpacity>
+          </View>
         )}
 
         <ProductModal />
@@ -624,6 +633,19 @@ export default function PlaceOrderScreen() {
 }
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+    borderTopLeftRadius: Platform.OS === 'web' ? 20 : 0,
+    borderTopRightRadius: Platform.OS === 'web' ? 20 : 0,
+  },
+  contentWrapper: {
+    flex: 1,
+    maxWidth: Platform.OS === 'web' ? 1200 : undefined,
+    width: '100%',
+    alignSelf: 'center',
+    padding: Platform.OS === 'web' ? 32 : 16,
+  },
   headerButton: {
     width: 40,
     height: 40,
@@ -646,67 +668,30 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#000',
   },
-  headerRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  cartBadge: {
-    position: 'absolute',
-    top: -4,
-    right: -4,
-    backgroundColor: '#FF3B30',
-    borderRadius: 10,
-    minWidth: 20,
-    height: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 2,
-    borderColor: '#fff',
-  },
-  cartBadgeText: {
-    color: '#fff',
-    fontSize: 12,
-    fontWeight: 'bold',
-  },
-  container: {
-    flex: 1,
-    padding: 8,
-  },
-  headerRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  cartButton: {
-    position: 'relative',
-    padding: 8,
-  },
-  cartBadge: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    backgroundColor: '#FF3B30',
-    borderRadius: 10,
-    minWidth: 20,
-    height: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  cartBadgeText: {
-    color: '#fff',
-    fontSize: 12,
-    fontWeight: 'bold',
+  sectionTitle: {
+    fontSize: Platform.OS === 'web' ? 18 : 16,
+    fontWeight: '600',
+    marginBottom: 12,
+    color: '#333',
   },
   partyInfo: {
-    marginBottom: 8,
-  },
-  partyInfoTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 4,
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 16,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
   partyInfoRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    gap: 16,
   },
   partyInfoItem: {
     flex: 1,
@@ -714,22 +699,31 @@ const styles = StyleSheet.create({
   partyInfoLabel: {
     fontSize: 14,
     color: '#666',
+    marginBottom: 4,
   },
   partyInfoValue: {
     fontSize: 16,
     fontWeight: '500',
+    color: '#333',
   },
   balance: {
-    marginBottom: 12,
-  },
-  balanceTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 4,
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 24,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
   balanceRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    gap: 16,
   },
   balanceItem: {
     flex: 1,
@@ -737,27 +731,26 @@ const styles = StyleSheet.create({
   balanceLabel: {
     fontSize: 14,
     color: '#666',
+    marginBottom: 4,
   },
   balanceValue: {
     fontSize: 16,
     fontWeight: '500',
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 8,
+    color: '#333',
   },
   categoriesContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    marginBottom: 16,
+  },
+  categoriesContent: {
+    paddingRight: 16,
     gap: 8,
-    marginBottom: 12,
   },
   categoryChip: {
     paddingHorizontal: 16,
-    paddingVertical: 6,
-    borderRadius: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
     backgroundColor: '#f5f5f5',
+    marginRight: 8,
   },
   categoryChipActive: {
     backgroundColor: '#8CC63F',
@@ -773,28 +766,27 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 8,
+    gap: 12,
+    marginBottom: 16,
   },
   searchInputContainer: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#f5f5f5',
-    borderRadius: 20,
-    paddingHorizontal: 12,
-    marginRight: 8,
-    height: 36,
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    height: 48,
   },
   searchInput: {
     flex: 1,
-    marginLeft: 8,
-    height: '100%',
-    padding: 0,
+    marginLeft: 12,
+    fontSize: 16,
   },
   filterButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 48,
+    height: 48,
+    borderRadius: 12,
     backgroundColor: '#f5f5f5',
     justifyContent: 'center',
     alignItems: 'center',
@@ -803,7 +795,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   productListContent: {
-    paddingBottom: 8,
+    gap: 12,
+    paddingBottom: cart.length > 0 ? 80 : 16,
   },
   productCard: {
     flexDirection: 'row',
@@ -811,30 +804,40 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
     borderRadius: 12,
-    padding: 12,
-    marginBottom: 8,
+    padding: 16,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
   productInfo: {
     flex: 1,
+    marginRight: 16,
   },
   productCardName: {
     fontSize: 16,
     fontWeight: '600',
-    marginBottom: 2,
+    color: '#333',
+    marginBottom: 4,
   },
   productCardId: {
-    fontSize: 12,
+    fontSize: 14,
     color: '#666',
-    marginBottom: 2,
+    marginBottom: 4,
   },
   productCardUnit: {
-    fontSize: 12,
+    fontSize: 14,
     color: '#666',
   },
   productCardQuantity: {
-    fontSize: 12,
+    fontSize: 14,
     color: '#8CC63F',
-    marginTop: 2,
+    fontWeight: '500',
+    marginTop: 4,
   },
   productPrice: {
     alignItems: 'flex-end',
@@ -842,25 +845,39 @@ const styles = StyleSheet.create({
   priceText: {
     fontSize: 16,
     fontWeight: '600',
-    marginBottom: 6,
+    color: '#333',
+    marginBottom: 8,
   },
   addButton: {
     backgroundColor: '#8CC63F',
     paddingHorizontal: 16,
-    paddingVertical: 6,
-    borderRadius: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
   },
   addButtonText: {
     color: '#fff',
     fontSize: 14,
     fontWeight: '500',
   },
+  footer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: '#fff',
+    borderTopWidth: 1,
+    borderTopColor: '#eee',
+    padding: 16,
+    paddingBottom: Platform.OS === 'ios' ? 32 : 16,
+  },
   continueButton: {
     backgroundColor: '#8CC63F',
-    borderRadius: 25,
-    padding: 14,
+    borderRadius: 12,
+    padding: 16,
     alignItems: 'center',
-    marginTop: 8,
+    maxWidth: Platform.OS === 'web' ? 400 : undefined,
+    alignSelf: 'center',
+    width: '100%',
   },
   continueButtonText: {
     color: '#fff',
@@ -931,7 +948,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   cartItemQuantity: {
-    fontSize: 14,
+    fontSize:  14,
     color: '#666',
   },
   cartItemActions: {
