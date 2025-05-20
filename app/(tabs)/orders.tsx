@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Platform, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Platform, Dimensions, ScrollView } from 'react-native';
 import GradientBackground from '@/components/GradientBackground';
 import { ShoppingCart, ClipboardCheck, Truck as TruckDelivery } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
@@ -16,46 +16,52 @@ export default function OrdersScreen() {
           <Text style={styles.title}>Orders</Text>
         </View>
         
-        <View style={styles.actionsContainer}>
-          <TouchableOpacity 
-            style={styles.actionCard}
-            onPress={() => router.push('/orders/place')}
-          >
-            <View style={[styles.iconContainer, { backgroundColor: 'rgba(61, 211, 158, 0.1)' }]}>
-              <ShoppingCart color="#3DD39E" size={24} />
-            </View>
-            <View style={styles.actionTextContainer}>
-              <Text style={styles.actionTitle}>Place Order</Text>
-              <Text style={styles.actionSubtitle}>Create a new order</Text>
-            </View>
-          </TouchableOpacity>
-          
-          <TouchableOpacity 
-            style={styles.actionCard}
-            onPress={() => router.push('/orders/my-orders')}
-          >
-            <View style={[styles.iconContainer, { backgroundColor: 'rgba(63, 81, 181, 0.1)' }]}>
-              <ClipboardCheck color="#3F51B5" size={24} />
-            </View>
-            <View style={styles.actionTextContainer}>
-              <Text style={styles.actionTitle}>My Orders</Text>
-              <Text style={styles.actionSubtitle}>View your orders</Text>
-            </View>
-          </TouchableOpacity>
-          
-          <TouchableOpacity 
-            style={styles.actionCard}
-            onPress={() => router.push('/orders/track')}
-          >
-            <View style={[styles.iconContainer, { backgroundColor: 'rgba(255, 152, 0, 0.1)' }]}>
-              <TruckDelivery color="#FF9800" size={24} />
-            </View>
-            <View style={styles.actionTextContainer}>
-              <Text style={styles.actionTitle}>Track Order</Text>
-              <Text style={styles.actionSubtitle}>Check order status</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+        <ScrollView 
+          style={styles.scrollContainer}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.actionsContainer}>
+            <TouchableOpacity 
+              style={styles.actionCard}
+              onPress={() => router.push('/orders/place')}
+            >
+              <View style={[styles.iconContainer, { backgroundColor: 'rgba(61, 211, 158, 0.1)' }]}>
+                <ShoppingCart color="#3DD39E" size={24} />
+              </View>
+              <View style={styles.actionTextContainer}>
+                <Text style={styles.actionTitle}>Place Order</Text>
+                <Text style={styles.actionSubtitle}>Create a new order</Text>
+              </View>
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={styles.actionCard}
+              onPress={() => router.push('/orders/my-orders')}
+            >
+              <View style={[styles.iconContainer, { backgroundColor: 'rgba(63, 81, 181, 0.1)' }]}>
+                <ClipboardCheck color="#3F51B5" size={24} />
+              </View>
+              <View style={styles.actionTextContainer}>
+                <Text style={styles.actionTitle}>My Orders</Text>
+                <Text style={styles.actionSubtitle}>View your orders</Text>
+              </View>
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={styles.actionCard}
+              onPress={() => router.push('/orders/track')}
+            >
+              <View style={[styles.iconContainer, { backgroundColor: 'rgba(255, 152, 0, 0.1)' }]}>
+                <TruckDelivery color="#FF9800" size={24} />
+              </View>
+              <View style={styles.actionTextContainer}>
+                <Text style={styles.actionTitle}>Track Order</Text>
+                <Text style={styles.actionSubtitle}>Check order status</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       </View>
     </GradientBackground>
   );
@@ -64,16 +70,26 @@ export default function OrdersScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: Platform.OS === 'web' ? 24 : 16,
     overflow: 'hidden',
   },
   header: {
+    paddingHorizontal: Platform.OS === 'web' ? 24 : 16,
     paddingVertical: Platform.OS === 'web' ? 24 : 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0',
+    backgroundColor: '#fff',
   },
   title: {
     fontSize: Platform.OS === 'web' ? 28 : 24,
     fontWeight: 'bold',
     color: '#000',
+  },
+  scrollContainer: {
+    flex: 1,
+  },
+  scrollContent: {
+    padding: Platform.OS === 'web' ? 24 : 16,
+    flexGrow: 1,
   },
   actionsContainer: {
     flex: 1,
@@ -82,6 +98,7 @@ const styles = StyleSheet.create({
     maxWidth: Platform.OS === 'web' ? 600 : '100%',
     alignSelf: 'center',
     width: '100%',
+    paddingVertical: Platform.OS === 'web' ? 40 : 20,
   },
   actionCard: {
     flexDirection: 'row',
