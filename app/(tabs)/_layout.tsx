@@ -7,7 +7,6 @@ import SideMenu from '@/components/SideMenu';
 
 const DRAWER_WIDTH = Dimensions.get('window').width * 0.85;
 
-// Create drawer context
 export const DrawerContext = createContext({
   toggleDrawer: () => {},
   isDrawerOpen: false,

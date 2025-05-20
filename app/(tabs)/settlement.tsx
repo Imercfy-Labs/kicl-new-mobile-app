@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
 import { useEffect } from 'react';
 
-export default function DealersScreen() {
+export default function SettlementScreen() {
   const router = useRouter();
   
   useEffect(() => {
