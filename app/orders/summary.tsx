@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator, Platform } from 'react-native';
 import { Stack, useRouter, useLocalSearchParams } from 'expo-router';
 import { ArrowLeft, X } from 'lucide-react-native';
@@ -15,31 +15,7 @@ export default function OrderSummaryScreen() {
   const [error, setError] = useState('');
   const { user } = useAuth();
 
-  // Validate cart data and handle invalid cases
-  useEffect(() => {
-    if (!params.cart) {
-      setError('No order items found. Please add items to your cart.');
-      return;
-    }
-
-    try {
-      const decodedCart = decodeURIComponent(params.cart as string);
-      JSON.parse(decodedCart); // Validate JSON structure
-    } catch (e) {
-      setError('Invalid cart data. Please try again.');
-    }
-  }, [params.cart]);
-
-  // If no cart data or invalid, provide empty array as fallback
-  const orderItems = React.useMemo(() => {
-    if (!params.cart) return [];
-    
-    try {
-      return JSON.parse(decodeURIComponent(params.cart as string));
-    } catch (e) {
-      return [];
-    }
-  }, [params.cart]);
+  const orderItems = params.cart ? JSON.parse(decodeURIComponent(params.cart as string)) : [];
 
   const calculateSubtotal = () => {
     return orderItems.reduce((sum, item) => sum + item.total, 0);
@@ -54,48 +30,8 @@ export default function OrderSummaryScreen() {
   };
 
   const handlePlaceOrder = () => {
-    if (orderItems.length === 0) {
-      setError('Cannot place order with empty cart');
-      return;
-    }
     setShowApprovalModal(true);
   };
-
-  // If there's an error, show error state with option to go back
-  if (error) {
-    return (
-      <GradientBackground>
-        <Stack.Screen 
-          options={{
-            headerShown: true,
-            headerStyle: {
-              backgroundColor: '#E8F5E9',
-            },
-            headerShadowVisible: true,
-            headerLeft: () => (
-              <TouchableOpacity 
-                onPress={() => router.back()}
-                style={styles.headerButton}
-              >
-                <ArrowLeft size={24} color="#000" />
-              </TouchableOpacity>
-            ),
-            headerTitle: "Order Summary",
-            headerTitleStyle: styles.headerTitle,
-          }}
-        />
-        <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>{error}</Text>
-          <TouchableOpacity 
-            style={styles.retryButton}
-            onPress={() => router.back()}
-          >
-            <Text style={styles.retryButtonText}>Go Back</Text>
-          </TouchableOpacity>
-        </View>
-      </GradientBackground>
-    );
-  }
 
   const ApprovalModal = () => {
     if (!showApprovalModal) return null;
@@ -213,6 +149,18 @@ export default function OrderSummaryScreen() {
       />
 
       <View style={styles.mainContainer}>
+        {error ? (
+          <View style={styles.errorContainer}>
+            <Text style={styles.errorText}>{error}</Text>
+            <TouchableOpacity 
+              style={styles.retryButton}
+              onPress={() => setError('')}
+            >
+              <Text style={styles.retryButtonText}>Dismiss</Text>
+            </TouchableOpacity>
+          </View>
+        ) : null}
+
         <ScrollView 
           style={styles.container} 
           showsVerticalScrollIndicator={false}
@@ -313,27 +261,25 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   errorContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: '#ffebee',
     padding: 16,
+    margin: 16,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#ef5350',
   },
   errorText: {
     color: '#c62828',
-    fontSize: 16,
-    textAlign: 'center',
-    marginBottom: 16,
+    marginBottom: 8,
   },
   retryButton: {
-    backgroundColor: '#8CC63F',
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 25,
+    backgroundColor: '#ef5350',
+    padding: 8,
+    borderRadius: 4,
+    alignSelf: 'flex-end',
   },
   retryButtonText: {
     color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
   },
   orderInfo: {
     marginBottom: 24,
