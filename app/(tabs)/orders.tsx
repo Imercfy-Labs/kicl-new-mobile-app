@@ -1,40 +1,15 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import GradientBackground from '@/components/GradientBackground';
 import { ShoppingCart, ClipboardCheck, Truck as TruckDelivery } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
-
-// Mock data for recent orders
-const RECENT_ORDERS = [
-  {
-    id: 'TK3842',
-    date: '12 Jun 2023',
-    dealer: 'Agro Solutions Ltd.',
-    amount: '₹24,500',
-    status: 'Delivered',
-  },
-  {
-    id: 'TK3836',
-    date: '10 Jun 2023',
-    dealer: 'Krishi Kendra',
-    amount: '₹18,750',
-    status: 'Processing',
-  },
-  {
-    id: 'TK3830',
-    date: '08 Jun 2023',
-    dealer: 'Seedtech Enterprises',
-    amount: '₹32,000',
-    status: 'In Transit',
-  },
-];
 
 export default function OrdersScreen() {
   const router = useRouter();
   
   return (
     <GradientBackground>
-      <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+      <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.title}>Orders</Text>
         </View>
@@ -73,58 +48,7 @@ export default function OrdersScreen() {
             <Text style={styles.actionSubtitle}>Check order status</Text>
           </TouchableOpacity>
         </View>
-        
-        <View style={styles.recentContainer}>
-          <Text style={styles.sectionTitle}>Recent Orders</Text>
-          
-          {RECENT_ORDERS.map((order) => (
-            <TouchableOpacity key={order.id} style={styles.orderCard}>
-              <View style={styles.orderTop}>
-                <Text style={styles.orderId}>Order #{order.id}</Text>
-                <Text 
-                  style={[
-                    styles.orderStatus, 
-                    { 
-                      color: order.status === 'Delivered' 
-                        ? '#4CAF50' 
-                        : order.status === 'In Transit' 
-                          ? '#FF9800' 
-                          : '#3F51B5'
-                    }
-                  ]}
-                >
-                  {order.status}
-                </Text>
-              </View>
-              
-              <View style={styles.orderDetails}>
-                <View style={styles.orderDetail}>
-                  <Text style={styles.detailLabel}>Date</Text>
-                  <Text style={styles.detailValue}>{order.date}</Text>
-                </View>
-                
-                <View style={styles.orderDetail}>
-                  <Text style={styles.detailLabel}>Dealer</Text>
-                  <Text style={styles.detailValue}>{order.dealer}</Text>
-                </View>
-                
-                <View style={styles.orderDetail}>
-                  <Text style={styles.detailLabel}>Amount</Text>
-                  <Text style={styles.detailValue}>{order.amount}</Text>
-                </View>
-              </View>
-              
-              <TouchableOpacity style={styles.viewDetailsButton}>
-                <Text style={styles.viewDetailsText}>View Details</Text>
-              </TouchableOpacity>
-            </TouchableOpacity>
-          ))}
-          
-          <TouchableOpacity style={styles.viewAllButton}>
-            <Text style={styles.viewAllText}>View All Orders</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+      </View>
     </GradientBackground>
   );
 }
@@ -132,10 +56,7 @@ export default function OrdersScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  content: {
     padding: 16,
-    paddingTop: 0,
   },
   header: {
     marginVertical: 16,
@@ -146,14 +67,27 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   actionsContainer: {
-    marginBottom: 24,
+    flex: 1,
+    flexDirection: Platform.OS === 'web' ? 'row' : 'column',
+    flexWrap: 'wrap',
+    gap: 16,
+    alignItems: 'stretch',
+    justifyContent: 'flex-start',
   },
   actionCard: {
+    flex: Platform.OS === 'web' ? 1 : undefined,
+    minWidth: Platform.OS === 'web' ? 250 : undefined,
     backgroundColor: '#fff',
     borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
+    padding: 24,
     elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
   iconContainer: {
     width: 48,
@@ -161,87 +95,16 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 12,
+    marginBottom: 16,
   },
   actionTitle: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '600',
     color: '#333',
-    marginBottom: 4,
+    marginBottom: 8,
   },
   actionSubtitle: {
     fontSize: 14,
     color: '#666',
-  },
-  recentContainer: {
-    marginBottom: 24,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 16,
-    color: '#000',
-  },
-  orderCard: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-    elevation: 2,
-  },
-  orderTop: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  orderId: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
-  },
-  orderStatus: {
-    fontSize: 14,
-    fontWeight: '500',
-  },
-  orderDetails: {
-    marginBottom: 16,
-  },
-  orderDetail: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 8,
-  },
-  detailLabel: {
-    fontSize: 14,
-    color: '#666',
-  },
-  detailValue: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#333',
-  },
-  viewDetailsButton: {
-    alignItems: 'center',
-    paddingVertical: 8,
-    borderTopWidth: 1,
-    borderTopColor: '#e0e0e0',
-  },
-  viewDetailsText: {
-    fontSize: 14,
-    color: '#3DD39E',
-    fontWeight: '500',
-  },
-  viewAllButton: {
-    backgroundColor: 'rgba(61, 211, 158, 0.1)',
-    borderRadius: 12,
-    padding: 12,
-    alignItems: 'center',
-    marginTop: 8,
-  },
-  viewAllText: {
-    fontSize: 14,
-    color: '#3DD39E',
-    fontWeight: '500',
   },
 });
