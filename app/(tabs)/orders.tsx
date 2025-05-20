@@ -1,15 +1,16 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Platform, Dimensions } from 'react-native';
 import GradientBackground from '@/components/GradientBackground';
 import { ShoppingCart, ClipboardCheck, Truck as TruckDelivery } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 
 export default function OrdersScreen() {
   const router = useRouter();
+  const windowHeight = Dimensions.get('window').height;
   
   return (
     <GradientBackground>
-      <View style={styles.container}>
+      <View style={[styles.container, { minHeight: windowHeight }]}>
         <View style={styles.header}>
           <Text style={styles.title}>Orders</Text>
         </View>
@@ -22,8 +23,10 @@ export default function OrdersScreen() {
             <View style={[styles.iconContainer, { backgroundColor: 'rgba(61, 211, 158, 0.1)' }]}>
               <ShoppingCart color="#3DD39E" size={24} />
             </View>
-            <Text style={styles.actionTitle}>Place Order</Text>
-            <Text style={styles.actionSubtitle}>Create a new order</Text>
+            <View style={styles.actionTextContainer}>
+              <Text style={styles.actionTitle}>Place Order</Text>
+              <Text style={styles.actionSubtitle}>Create a new order</Text>
+            </View>
           </TouchableOpacity>
           
           <TouchableOpacity 
@@ -33,8 +36,10 @@ export default function OrdersScreen() {
             <View style={[styles.iconContainer, { backgroundColor: 'rgba(63, 81, 181, 0.1)' }]}>
               <ClipboardCheck color="#3F51B5" size={24} />
             </View>
-            <Text style={styles.actionTitle}>My Orders</Text>
-            <Text style={styles.actionSubtitle}>View your orders</Text>
+            <View style={styles.actionTextContainer}>
+              <Text style={styles.actionTitle}>My Orders</Text>
+              <Text style={styles.actionSubtitle}>View your orders</Text>
+            </View>
           </TouchableOpacity>
           
           <TouchableOpacity 
@@ -44,8 +49,10 @@ export default function OrdersScreen() {
             <View style={[styles.iconContainer, { backgroundColor: 'rgba(255, 152, 0, 0.1)' }]}>
               <TruckDelivery color="#FF9800" size={24} />
             </View>
-            <Text style={styles.actionTitle}>Track Order</Text>
-            <Text style={styles.actionSubtitle}>Check order status</Text>
+            <View style={styles.actionTextContainer}>
+              <Text style={styles.actionTitle}>Track Order</Text>
+              <Text style={styles.actionSubtitle}>Check order status</Text>
+            </View>
           </TouchableOpacity>
         </View>
       </View>
@@ -57,29 +64,27 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    overflow: 'hidden',
   },
   header: {
-    marginVertical: 16,
+    paddingVertical: Platform.OS === 'web' ? 16 : 8,
   },
   title: {
-    fontSize: 24,
+    fontSize: Platform.OS === 'web' ? 24 : 20,
     fontWeight: 'bold',
     color: '#000',
   },
   actionsContainer: {
     flex: 1,
-    flexDirection: Platform.OS === 'web' ? 'row' : 'column',
-    flexWrap: 'wrap',
-    gap: 16,
-    alignItems: 'stretch',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
+    gap: Platform.OS === 'web' ? 20 : 12,
   },
   actionCard: {
-    flex: Platform.OS === 'web' ? 1 : undefined,
-    minWidth: Platform.OS === 'web' ? 250 : undefined,
+    flexDirection: Platform.OS === 'web' ? 'column' : 'row',
+    alignItems: Platform.OS === 'web' ? 'flex-start' : 'center',
     backgroundColor: '#fff',
     borderRadius: 12,
-    padding: 24,
+    padding: Platform.OS === 'web' ? 24 : 16,
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: {
@@ -95,13 +100,17 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 16,
+    marginBottom: Platform.OS === 'web' ? 16 : 0,
+    marginRight: Platform.OS === 'web' ? 0 : 16,
+  },
+  actionTextContainer: {
+    flex: Platform.OS === 'web' ? 0 : 1,
   },
   actionTitle: {
-    fontSize: 18,
+    fontSize: Platform.OS === 'web' ? 18 : 16,
     fontWeight: '600',
     color: '#333',
-    marginBottom: 8,
+    marginBottom: 4,
   },
   actionSubtitle: {
     fontSize: 14,
