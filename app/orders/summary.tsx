@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator, Platform } from 'react-native';
 import { Stack, useRouter, useLocalSearchParams } from 'expo-router';
 import { ArrowLeft, X } from 'lucide-react-native';
 import GradientBackground from '@/components/GradientBackground';
@@ -15,7 +15,6 @@ export default function OrderSummaryScreen() {
   const [error, setError] = useState('');
   const { user } = useAuth();
 
-  // Parse cart items from URL params
   const orderItems = params.cart ? JSON.parse(decodeURIComponent(params.cart as string)) : [];
 
   const calculateSubtotal = () => {
@@ -23,7 +22,7 @@ export default function OrderSummaryScreen() {
   };
 
   const calculateGST = () => {
-    return calculateSubtotal() * 0.05; // 5% GST
+    return calculateSubtotal() * 0.05;
   };
 
   const calculateTotal = () => {
@@ -42,16 +41,14 @@ export default function OrderSummaryScreen() {
         setIsLoading(true);
         setError('');
 
-        // Transform cart items to match API format
         const items = orderItems.map(item => ({
           product_id: item.id,
           quantity: item.quantity,
           price: item.price
         }));
 
-        // Place order
         await placeOrder({
-          dealer_id: 1, // Replace with actual dealer ID
+          dealer_id: 1,
           sales_officer_id: user?.id || "",
           branch_id: 1,
           items
@@ -134,12 +131,20 @@ export default function OrderSummaryScreen() {
       <Stack.Screen 
         options={{
           headerShown: true,
+          headerStyle: {
+            backgroundColor: '#E8F5E9',
+          },
+          headerShadowVisible: true,
           headerLeft: () => (
-            <TouchableOpacity onPress={() => router.back()}>
+            <TouchableOpacity 
+              onPress={() => router.back()}
+              style={styles.headerButton}
+            >
               <ArrowLeft size={24} color="#000" />
             </TouchableOpacity>
           ),
           headerTitle: "Order Summary",
+          headerTitleStyle: styles.headerTitle,
         }}
       />
 
@@ -223,6 +228,28 @@ export default function OrderSummaryScreen() {
 }
 
 const styles = StyleSheet.create({
+  headerButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: Platform.OS === 'web' ? 16 : 8,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  headerTitle: {
+    fontSize: Platform.OS === 'web' ? 20 : 18,
+    fontWeight: '600',
+    color: '#000',
+  },
   container: {
     flex: 1,
     padding: 16,

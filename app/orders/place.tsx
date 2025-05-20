@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, Platform } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, Platform, Dimensions } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
 import { ArrowLeft, Search, Filter, ShoppingCart, X, Plus, Minus, Trash2 } from 'lucide-react-native';
 import GradientBackground from '@/components/GradientBackground';
@@ -252,7 +252,6 @@ const PRODUCTS = [
   }
 ];
 
-
 export default function PlaceOrderScreen() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('nitrogenous');
@@ -463,16 +462,24 @@ export default function PlaceOrderScreen() {
       <Stack.Screen 
         options={{
           headerShown: true,
+          headerStyle: {
+            backgroundColor: '#E8F5E9',
+          },
+          headerShadowVisible: true,
           headerLeft: () => (
-            <TouchableOpacity onPress={() => router.back()}>
+            <TouchableOpacity 
+              onPress={() => router.back()}
+              style={styles.headerButton}
+            >
               <ArrowLeft size={24} color="#000" />
             </TouchableOpacity>
           ),
           headerTitle: "Place Order",
+          headerTitleStyle: styles.headerTitle,
           headerRight: () => (
             <View style={styles.headerRight}>
               <TouchableOpacity 
-                style={styles.cartButton}
+                style={styles.headerButton}
                 onPress={() => setShowCartModal(true)}
               >
                 <ShoppingCart size={24} color="#000" />
@@ -617,6 +624,50 @@ export default function PlaceOrderScreen() {
 }
 
 const styles = StyleSheet.create({
+  headerButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: Platform.OS === 'web' ? 16 : 8,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  headerTitle: {
+    fontSize: Platform.OS === 'web' ? 20 : 18,
+    fontWeight: '600',
+    color: '#000',
+  },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  cartBadge: {
+    position: 'absolute',
+    top: -4,
+    right: -4,
+    backgroundColor: '#FF3B30',
+    borderRadius: 10,
+    minWidth: 20,
+    height: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#fff',
+  },
+  cartBadgeText: {
+    color: '#fff',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
   container: {
     flex: 1,
     padding: 8,
