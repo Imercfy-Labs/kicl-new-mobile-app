@@ -27,7 +27,7 @@ export default function OrdersScreen() {
               onPress={() => router.push('/orders/place')}
             >
               <View style={[styles.iconContainer, { backgroundColor: 'rgba(61, 211, 158, 0.1)' }]}>
-                <ShoppingCart color="#3DD39E" size={24} />
+                <ShoppingCart color="#3DD39E" size={isWeb ? 28 : 24} />
               </View>
               <View style={styles.actionTextContainer}>
                 <Text style={styles.actionTitle}>Place Order</Text>
@@ -40,7 +40,7 @@ export default function OrdersScreen() {
               onPress={() => router.push('/orders/my-orders')}
             >
               <View style={[styles.iconContainer, { backgroundColor: 'rgba(63, 81, 181, 0.1)' }]}>
-                <ClipboardCheck color="#3F51B5" size={24} />
+                <ClipboardCheck color="#3F51B5" size={isWeb ? 28 : 24} />
               </View>
               <View style={styles.actionTextContainer}>
                 <Text style={styles.actionTitle}>My Orders</Text>
@@ -53,7 +53,7 @@ export default function OrdersScreen() {
               onPress={() => router.push('/orders/track')}
             >
               <View style={[styles.iconContainer, { backgroundColor: 'rgba(255, 152, 0, 0.1)' }]}>
-                <TruckDelivery color="#FF9800" size={24} />
+                <TruckDelivery color="#FF9800" size={isWeb ? 28 : 24} />
               </View>
               <View style={styles.actionTextContainer}>
                 <Text style={styles.actionTitle}>Track Order</Text>
@@ -73,14 +73,22 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   header: {
-    paddingHorizontal: Platform.OS === 'web' ? 24 : 16,
-    paddingVertical: Platform.OS === 'web' ? 24 : 16,
+    paddingHorizontal: Platform.OS === 'web' ? 32 : 16,
+    paddingVertical: Platform.OS === 'web' ? 28 : 16,
     borderBottomWidth: 1,
     borderBottomColor: '#E0E0E0',
     backgroundColor: '#fff',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 3,
+    elevation: 3,
   },
   title: {
-    fontSize: Platform.OS === 'web' ? 28 : 24,
+    fontSize: Platform.OS === 'web' ? 32 : 24,
     fontWeight: 'bold',
     color: '#000',
   },
@@ -88,51 +96,52 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: Platform.OS === 'web' ? 24 : 16,
+    padding: Platform.OS === 'web' ? 32 : 16,
     flexGrow: 1,
   },
   actionsContainer: {
     flex: 1,
     justifyContent: 'center',
     gap: Platform.OS === 'web' ? 24 : 16,
-    maxWidth: Platform.OS === 'web' ? 600 : '100%',
+    maxWidth: Platform.OS === 'web' ? 800 : '100%',
     alignSelf: 'center',
     width: '100%',
-    paddingVertical: Platform.OS === 'web' ? 40 : 20,
+    paddingVertical: Platform.OS === 'web' ? 48 : 24,
   },
   actionCard: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#fff',
-    borderRadius: 16,
-    padding: Platform.OS === 'web' ? 24 : 16,
+    borderRadius: Platform.OS === 'web' ? 20 : 16,
+    padding: Platform.OS === 'web' ? 32 : 20,
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 4,
     },
     shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowRadius: 8,
     transform: [{ scale: 1 }],
-    transition: Platform.OS === 'web' ? 'transform 0.2s ease-in-out' : undefined,
+    transition: Platform.OS === 'web' ? 'all 0.3s ease' : undefined,
+    cursor: Platform.OS === 'web' ? 'pointer' : undefined,
   },
   iconContainer: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: Platform.OS === 'web' ? 64 : 56,
+    height: Platform.OS === 'web' ? 64 : 56,
+    borderRadius: Platform.OS === 'web' ? 32 : 28,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 20,
+    marginRight: Platform.OS === 'web' ? 28 : 20,
   },
   actionTextContainer: {
     flex: 1,
   },
   actionTitle: {
-    fontSize: Platform.OS === 'web' ? 20 : 18,
+    fontSize: Platform.OS === 'web' ? 24 : 18,
     fontWeight: '600',
     color: '#333',
-    marginBottom: 6,
+    marginBottom: Platform.OS === 'web' ? 8 : 6,
   },
   actionSubtitle: {
     fontSize: Platform.OS === 'web' ? 16 : 14,

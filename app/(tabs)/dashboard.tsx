@@ -14,6 +14,7 @@ export default function DashboardScreen() {
   const { toggleDrawer } = React.useContext(DrawerContext);
   const router = useRouter();
   const windowHeight = Dimensions.get('window').height;
+  const isWeb = Platform.OS === 'web';
 
   const getCurrentTime = () => {
     const now = new Date();
@@ -46,7 +47,7 @@ export default function DashboardScreen() {
   return (
     <View style={[styles.container, { height: windowHeight }]}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={toggleDrawer}>
+        <TouchableOpacity onPress={toggleDrawer} style={styles.iconButton}>
           <Menu size={24} color="#000" />
         </TouchableOpacity>
         <Logo size="small" showText={false} />
@@ -117,31 +118,52 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
+    paddingHorizontal: isWeb ? 32 : 16,
     paddingTop: Platform.OS === 'ios' ? 50 : 30,
     paddingBottom: 20,
     backgroundColor: '#E8F5E9',
     borderBottomWidth: 1,
     borderBottomColor: '#D1E7DD',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 3,
+    elevation: 3,
   },
   iconButton: {
-    padding: 8,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
   },
   scrollContainer: {
     flex: 1,
   },
   scrollContent: {
-    padding: 20,
-    paddingBottom: Platform.OS === 'web' ? 40 : 20,
+    padding: isWeb ? 32 : 20,
+    paddingBottom: isWeb ? 48 : 24,
   },
   punchButton: {
-    width: 160,
-    height: 160,
-    borderRadius: 80,
+    width: isWeb ? 200 : 160,
+    height: isWeb ? 200 : 160,
+    borderRadius: isWeb ? 100 : 80,
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    marginVertical: 20,
+    marginVertical: isWeb ? 32 : 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 5,
   },
   punchInButton: {
     backgroundColor: '#8CC63F',
@@ -151,50 +173,59 @@ const styles = StyleSheet.create({
   },
   punchButtonText: {
     color: '#fff',
-    fontSize: 24,
+    fontSize: isWeb ? 28 : 24,
     fontWeight: '600',
   },
   timeInfo: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 30,
+    maxWidth: isWeb ? 800 : undefined,
+    alignSelf: 'center',
+    width: '100%',
   },
   timeText: {
     color: '#666',
-    fontSize: 14,
+    fontSize: isWeb ? 16 : 14,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: isWeb ? 24 : 18,
     fontWeight: '600',
-    marginBottom: 20,
+    marginBottom: isWeb ? 24 : 20,
+    maxWidth: isWeb ? 800 : undefined,
+    alignSelf: 'center',
+    width: '100%',
   },
   progressGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    gap: Platform.OS === 'web' ? 24 : 16,
+    justifyContent: 'flex-start',
+    gap: isWeb ? 24 : 16,
+    maxWidth: isWeb ? 800 : undefined,
+    alignSelf: 'center',
+    width: '100%',
   },
   progressCard: {
-    width: Platform.OS === 'web' ? 'calc(33.33% - 16px)' : 'calc(50% - 8px)',
+    width: isWeb ? 'calc(33.33% - 16px)' : 'calc(50% - 8px)',
     backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: Platform.OS === 'web' ? 24 : 16,
+    borderRadius: isWeb ? 20 : 16,
+    padding: isWeb ? 24 : 16,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 4,
     },
     shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowRadius: 8,
     elevation: 3,
   },
   progressTitle: {
-    fontSize: 14,
+    fontSize: isWeb ? 16 : 14,
     color: '#666',
-    marginBottom: 10,
+    marginBottom: isWeb ? 12 : 8,
   },
   progressValue: {
-    fontSize: 24,
+    fontSize: isWeb ? 28 : 24,
     fontWeight: 'bold',
     color: '#000',
   },
