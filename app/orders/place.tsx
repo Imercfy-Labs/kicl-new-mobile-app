@@ -252,7 +252,6 @@ const PRODUCTS = [
   }
 ];
 
-
 export default function PlaceOrderScreen() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('nitrogenous');
@@ -624,379 +623,62 @@ const styles = StyleSheet.create({
   headerRight: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 16,
   },
   cartButton: {
-    position: 'relative',
-    padding: 8,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
   },
   cartBadge: {
     position: 'absolute',
-    top: 0,
-    right: 0,
-    backgroundColor: '#FF3B30',
-    borderRadius: 10,
+    top: -4,
+    right: -4,
     minWidth: 20,
     height: 20,
+    paddingHorizontal: 6,
+    borderRadius: 10,
+    backgroundColor: '#FF3B30',
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#fff',
   },
   cartBadgeText: {
     color: '#fff',
     fontSize: 12,
-    fontWeight: 'bold',
-  },
-  partyInfo: {
-    marginBottom: 8,
-  },
-  partyInfoTitle: {
-    fontSize: 16,
     fontWeight: '600',
-    marginBottom: 4,
   },
-  partyInfoRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  partyInfoItem: {
-    flex: 1,
-  },
-  partyInfoLabel: {
-    fontSize: 14,
-    color: '#666',
-  },
-  partyInfoValue: {
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  balance: {
-    marginBottom: 12,
-  },
-  balanceTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 4,
-  },
-  balanceRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  balanceItem: {
-    flex: 1,
-  },
-  balanceLabel: {
-    fontSize: 14,
-    color: '#666',
-  },
-  balanceValue: {
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 8,
-  },
-  categoriesContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-    marginBottom: 12,
-  },
-  categoryChip: {
-    paddingHorizontal: 16,
-    paddingVertical: 6,
-    borderRadius: 16,
-    backgroundColor: '#f5f5f5',
-  },
-  categoryChipActive: {
-    backgroundColor: '#8CC63F',
-  },
-  categoryChipText: {
-    fontSize: 14,
-    color: '#666',
-  },
-  categoryChipTextActive: {
-    color: '#fff',
-    fontWeight: '500',
-  },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: 8,
-  },
-  searchInputContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f5f5f5',
+  backButton: {
+    width: 40,
+    height: 40,
     borderRadius: 20,
-    paddingHorizontal: 12,
-    marginRight: 8,
-    height: 36,
-  },
-  searchInput: {
-    flex: 1,
-    marginLeft: 8,
-    height: '100%',
-    padding: 0,
-  },
-  filterButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: '#f5f5f5',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  productList: {
-    flex: 1,
-  },
-  productListContent: {
-    paddingBottom: 8,
-  },
-  productCard: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 12,
-    marginBottom: 8,
-  },
-  productInfo: {
-    flex: 1,
-  },
-  productCardName: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 2,
-  },
-  productCardId: {
-    fontSize: 12,
-    color: '#666',
-    marginBottom: 2,
-  },
-  productCardUnit: {
-    fontSize: 12,
-    color: '#666',
-  },
-  productCardQuantity: {
-    fontSize: 12,
-    color: '#8CC63F',
-    marginTop: 2,
-  },
-  productPrice: {
-    alignItems: 'flex-end',
-  },
-  priceText: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 6,
-  },
-  addButton: {
-    backgroundColor: '#8CC63F',
-    paddingHorizontal: 16,
-    paddingVertical: 6,
-    borderRadius: 16,
-  },
-  addButtonText: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: '500',
-  },
-  continueButton: {
-    backgroundColor: '#8CC63F',
-    borderRadius: 25,
-    padding: 14,
-    alignItems: 'center',
-    marginTop: 8,
-  },
-  continueButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  modalOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'transparent',
-  },
-  modalBackdrop: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalContent: {
-    backgroundColor: '#fff',
-    borderRadius: 20,
-    padding: 20,
-    width: '90%',
-    maxWidth: 400,
-  },
-  cartModalContent: {
-    backgroundColor: '#fff',
-    borderRadius: 20,
-    width: '90%',
-    maxWidth: 400,
-    maxHeight: '80%',
-  },
-  cartModalHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  cartModalTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-  },
-  cartItemsList: {
-    padding: 20,
-  },
-  cartItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  cartItemInfo: {
-    flex: 1,
-  },
-  cartItemName: {
-    fontSize: 16,
-    fontWeight: '500',
-    marginBottom: 4,
-  },
-  cartItemUnit: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 4,
-  },
-  cartItemQuantity: {
-    fontSize: 14,
-    color: '#666',
-  },
-  cartItemActions: {
-    alignItems: 'flex-end',
-  },
-  cartItemTotal: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 8,
-  },
-  removeButton: {
-    padding: 4,
-  },
-  cartFooter: {
-    padding: 20,
-    borderTopWidth: 1,
-    borderTopColor: '#eee',
-  },
-  totalContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  totalLabel: {
-    fontSize: 16,
-    color: '#666',
-  },
-  totalAmount: {
-    fontSize: 20,
-    fontWeight: '600',
-  },
-  checkoutButton: {
-    backgroundColor: '#8CC63F',
-    borderRadius: 25,
-    padding: 14,
-    alignItems: 'center',
-  },
-  checkoutButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  emptyCart: {
-    padding: 40,
-    alignItems: 'center',
-  },
-  emptyCartText: {
-    fontSize: 16,
-    color: '#666',
-  },
-  closeButton: {
-    position: 'absolute',
-    right: 16,
-    top: 16,
-    zIndex: 1,
-  },
-  productName: {
-    fontSize: 24,
-    fontWeight: '600',
-    marginBottom: 8,
-  },
-  productUnit: {
-    fontSize: 16,
-    color: '#666',
-    marginBottom: 16,
-  },
-  productId: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 8,
-  },
-  availableUnits: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 24,
-  },
-  quantityContainer: {
-    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 24,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
   },
-  quantityButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: '#f5f5f5',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  quantityInput: {
-    width: 80,
-    height: 36,
-    backgroundColor: '#f5f5f5',
-    borderRadius: 8,
-    marginHorizontal: 12,
-    textAlign: 'center',
-    fontSize: 16,
-    padding: 0,
-  },
-  totalPrice: {
-    fontSize: 18,
+  headerTitle: {
+    fontSize: Platform.OS === 'web' ? 20 : 18,
     fontWeight: '600',
-    textAlign: 'center',
-    marginBottom: 24,
-  },
-  addToCartButton: {
-    backgroundColor: '#8CC63F',
-    borderRadius: 25,
-    padding: 14,
-    alignItems: 'center',
-  },
-  addToCartText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
+    color: '#000',
   },
 });
