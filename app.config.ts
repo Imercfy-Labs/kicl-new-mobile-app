@@ -3,10 +3,10 @@ export default {
   slug: 'kicl-mobile-app',
   version: '1.0.0',
   orientation: 'portrait',
-  // icon: './assets/images/icon.png',
+  icon: './assets/images/icon.png',
   userInterfaceStyle: 'light',
   splash: {
-    // image: './assets/images/icon.png',
+    image: './assets/images/icon.png',
     resizeMode: 'contain',
     backgroundColor: '#ffffff'
   },
@@ -22,17 +22,17 @@ export default {
   },
   android: {
     adaptiveIcon: {
-      // foregroundImage: './assets/images/favicon.png',
+      foregroundImage: './assets/images/favicon.png',
       backgroundColor: '#FFFFFF'
     },
     package: 'com.kicl.mobile'
   },
   web: {
-    // favicon: './assets/images/favicon.png',
+    favicon: './assets/images/favicon.png',
     bundler: 'metro'
   },
   extra: {
-    apiUrl: process.env.EXPO_PUBLIC_API_URL || 'https://devkicl.duckdns.org/api'
+    apiUrl: process.env.EXPO_PUBLIC_API_URL || 'http://devkicl.duckdns.org/api'
   },
   plugins: []
 };
