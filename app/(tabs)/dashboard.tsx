@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Platform, ScrollView, Dimensions } from 'react-native';
 import { useAuth } from '../auth/AuthContext';
 import { Menu, Bell } from 'lucide-react-native';
-import Logo from '@/components/Logo';
 import { DrawerContext } from './_layout';
 import { useRouter } from 'expo-router';
 import { secureStore } from '@/services/secureStore';
@@ -24,11 +23,8 @@ export default function DashboardScreen() {
   const router = useRouter();
   const windowHeight = Dimensions.get('window').height;
 
-  // Load punch data on mount
   useEffect(() => {
     loadPunchData();
-    
-    // Check for day change every minute
     const interval = setInterval(checkDayChange, 60000);
     return () => clearInterval(interval);
   }, []);
@@ -40,7 +36,6 @@ export default function DashboardScreen() {
         const punchData: PunchData = JSON.parse(data);
         const today = new Date().toDateString();
         
-        // Reset if it's a new day
         if (punchData.lastPunchDate !== today) {
           await resetPunchData();
         } else {
@@ -127,13 +122,6 @@ export default function DashboardScreen() {
     }
   };
 
-  const ProgressCard = ({ title, value }) => (
-    <View style={styles.progressCard}>
-      <Text style={styles.progressTitle}>{title}</Text>
-      <Text style={styles.progressValue}>{value}</Text>
-    </View>
-  );
-
   return (
     <View style={[styles.container, { height: windowHeight }]}>
       <View style={styles.header}>
@@ -143,7 +131,6 @@ export default function DashboardScreen() {
           </TouchableOpacity>
         </View>
         
-        
         <View style={styles.headerRight}>
           <TouchableOpacity style={styles.iconButton}>
             <Bell size={24} color="#000" />
@@ -151,62 +138,37 @@ export default function DashboardScreen() {
         </View>
       </View>
 
-      <ScrollView 
-        style={styles.scrollContainer}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
-        <TouchableOpacity 
-          style={[
-            styles.punchButton, 
-            isPunchedIn ? styles.punchOutButton : styles.punchInButton,
-            isSubmitting && styles.punchButtonDisabled
-          ]}
-          onPress={handlePunch}
-          disabled={isSubmitting}
-        >
-          <Text style={[
-            styles.punchButtonText,
-            isSubmitting && styles.punchButtonTextDisabled
-          ]}>
-            {isSubmitting ? 'Processing...' : isPunchedIn ? 'Punch Out' : 'Punch In'}
-          </Text>
-        </TouchableOpacity>
+      <View style={styles.content}>
+        <View style={styles.punchContainer}>
+          <TouchableOpacity 
+            style={[
+              styles.punchButton, 
+              isPunchedIn ? styles.punchOutButton : styles.punchInButton,
+              isSubmitting && styles.punchButtonDisabled
+            ]}
+            onPress={handlePunch}
+            disabled={isSubmitting}
+          >
+            <Text style={[
+              styles.punchButtonText,
+              isSubmitting && styles.punchButtonTextDisabled
+            ]}>
+              {isSubmitting ? 'Processing...' : isPunchedIn ? 'Punch Out' : 'Punch In'}
+            </Text>
+          </TouchableOpacity>
 
-        <View style={styles.timeInfo}>
-          <Text style={styles.timeText}>Last In Time: {lastInTime}</Text>
-          <Text style={styles.timeText}>Last Out Time: {lastOutTime}</Text>
+          <View style={styles.timeInfo}>
+            <View style={styles.timeCard}>
+              <Text style={styles.timeLabel}>Last In Time</Text>
+              <Text style={styles.timeValue}>{lastInTime}</Text>
+            </View>
+            <View style={styles.timeCard}>
+              <Text style={styles.timeLabel}>Last Out Time</Text>
+              <Text style={styles.timeValue}>{lastOutTime}</Text>
+            </View>
+          </View>
         </View>
-
-        <Text style={styles.sectionTitle}>My Progress:</Text>
-
-        <View style={styles.progressGrid}>
-          <ProgressCard 
-            title="No. of Dealers Visited" 
-            value="5"
-          />
-          <ProgressCard 
-            title="Sales Target Progress (monthly)" 
-            value="63%"
-          />
-          <ProgressCard 
-            title="Orders Placed Today" 
-            value="3"
-          />
-          <ProgressCard 
-            title="Order Value Today" 
-            value="₹ 7000"
-          />
-          <ProgressCard 
-            title="Field Activities this Week" 
-            value="2"
-          />
-          <ProgressCard 
-            title="Hours Worked Today" 
-            value="5"
-          />
-        </View>
-      </ScrollView>
+      </View>
     </View>
   );
 }
@@ -215,7 +177,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    overflow: 'hidden',
   },
   header: {
     flexDirection: 'row',
@@ -262,21 +223,24 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 2,
   },
-  scrollContainer: {
+  content: {
     flex: 1,
-  },
-  scrollContent: {
+    justifyContent: 'center',
     padding: Platform.OS === 'web' ? 32 : 20,
-    paddingBottom: Platform.OS === 'web' ? 48 : 24,
+  },
+  punchContainer: {
+    maxWidth: Platform.OS === 'web' ? 600 : undefined,
+    width: '100%',
+    alignSelf: 'center',
   },
   punchButton: {
-    width: Platform.OS === 'web' ? 200 : 160,
-    height: Platform.OS === 'web' ? 200 : 160,
-    borderRadius: Platform.OS === 'web' ? 100 : 80,
+    width: Platform.OS === 'web' ? 240 : 200,
+    height: Platform.OS === 'web' ? 240 : 200,
+    borderRadius: Platform.OS === 'web' ? 120 : 100,
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    marginVertical: Platform.OS === 'web' ? 32 : 20,
+    marginBottom: Platform.OS === 'web' ? 48 : 32,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -300,60 +264,37 @@ const styles = StyleSheet.create({
   },
   punchButtonText: {
     color: '#fff',
-    fontSize: Platform.OS === 'web' ? 28 : 24,
+    fontSize: Platform.OS === 'web' ? 32 : 28,
     fontWeight: '600',
   },
   timeInfo: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 30,
-    maxWidth: Platform.OS === 'web' ? 800 : undefined,
-    alignSelf: 'center',
-    width: '100%',
+    justifyContent: 'center',
+    gap: Platform.OS === 'web' ? 32 : 20,
   },
-  timeText: {
-    color: '#666',
-    fontSize: Platform.OS === 'web' ? 16 : 14,
-  },
-  sectionTitle: {
-    fontSize: Platform.OS === 'web' ? 24 : 18,
-    fontWeight: '600',
-    marginBottom: Platform.OS === 'web' ? 24 : 20,
-    maxWidth: Platform.OS === 'web' ? 800 : undefined,
-    alignSelf: 'center',
-    width: '100%',
-  },
-  progressGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'flex-start',
-    gap: Platform.OS === 'web' ? 24 : 16,
-    maxWidth: Platform.OS === 'web' ? 800 : undefined,
-    alignSelf: 'center',
-    width: '100%',
-  },
-  progressCard: {
-    width: Platform.OS === 'web' ? 'calc(33.33% - 16px)' : 'calc(50% - 8px)',
+  timeCard: {
     backgroundColor: '#fff',
     borderRadius: Platform.OS === 'web' ? 20 : 16,
-    padding: Platform.OS === 'web' ? 24 : 16,
+    padding: Platform.OS === 'web' ? 24 : 20,
+    minWidth: Platform.OS === 'web' ? 200 : 150,
+    alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 4,
+      height: 2,
     },
     shadowOpacity: 0.1,
-    shadowRadius: 8,
+    shadowRadius: 4,
     elevation: 3,
   },
-  progressTitle: {
+  timeLabel: {
     fontSize: Platform.OS === 'web' ? 16 : 14,
     color: '#666',
     marginBottom: Platform.OS === 'web' ? 12 : 8,
   },
-  progressValue: {
-    fontSize: Platform.OS === 'web' ? 28 : 24,
-    fontWeight: 'bold',
+  timeValue: {
+    fontSize: Platform.OS === 'web' ? 24 : 20,
+    fontWeight: '600',
     color: '#000',
   },
 });
