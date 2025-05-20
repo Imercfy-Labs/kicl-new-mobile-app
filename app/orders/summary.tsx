@@ -406,8 +406,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: 'linear-gradient(180deg, #1ABC9C 0%, #CCEA9C 90.87%);',
-    // background: linear-gradient(180deg, #1ABC9C 0%, #CCEA9C 90.87%);
+    backgroundColor: '#fff',
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderTopWidth: 1,
