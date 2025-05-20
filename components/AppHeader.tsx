@@ -28,7 +28,7 @@ export default function AppHeader({ title, onMenuPress }: AppHeaderProps) {
           style={styles.iconButton}
           onPress={() => router.push('/profile')}
         >
-          <User color="#333" size={22} />
+          {/* <User color="#333" size={22} /> */}
         </TouchableOpacity>
       </View>
     </View>
