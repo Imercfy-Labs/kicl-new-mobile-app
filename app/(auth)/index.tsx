@@ -14,7 +14,7 @@ export default function LoginScreen() {
     try {
       setError('');
       await login(email, password);
-      router.replace('/(tabs)/');
+      router.replace('/(tabs)/dashboard');
     } catch (error: any) {
       setError(error.message || 'Invalid email or password');
     }
@@ -86,6 +86,8 @@ const styles = StyleSheet.create({
   },
   form: {
     width: '100%',
+    maxWidth: Platform.OS === 'web' ? 400 : undefined,
+    alignSelf: 'center',
   },
   errorText: {
     color: '#FF3B30',
