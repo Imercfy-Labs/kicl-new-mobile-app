@@ -5,20 +5,30 @@ import GradientBackground from '@/components/GradientBackground';
 export default function NotFoundScreen() {
   const router = useRouter();
 
+  const handleNavigation = () => {
+    if (router.canGoBack()) {
+      router.back();
+    } else {
+      router.replace('/(auth)/');
+    }
+  };
+
   return (
     <GradientBackground>
       <Stack.Screen options={{ headerShown: false }} />
       <TouchableOpacity 
         style={styles.container} 
         activeOpacity={0.9}
-        onPress={() => router.back()}
+        onPress={handleNavigation}
       >
         <View style={styles.content}>
           <Text style={styles.title}>Coming Soon!</Text>
           <Text style={styles.description}>
             This feature is currently under development and will be available soon.
           </Text>
-          <Text style={styles.tapText}>Tap anywhere to go back</Text>
+          <Text style={styles.tapText}>
+            {router.canGoBack() ? 'Tap anywhere to go back' : 'Tap anywhere to go to login'}
+          </Text>
         </View>
       </TouchableOpacity>
     </GradientBackground>
