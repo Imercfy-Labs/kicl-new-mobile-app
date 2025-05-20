@@ -5,15 +5,88 @@ import { Menu, Bell } from 'lucide-react-native';
 import Logo from '@/components/Logo';
 import { DrawerContext } from './_layout';
 import { useRouter } from 'expo-router';
+import { secureStore } from '@/services/secureStore';
+
+interface PunchData {
+  isPunchedIn: boolean;
+  lastInTime: string;
+  lastOutTime: string;
+  lastPunchDate: string;
+}
 
 export default function DashboardScreen() {
   const { user } = useAuth();
   const [isPunchedIn, setIsPunchedIn] = useState(false);
   const [lastInTime, setLastInTime] = useState('--:--');
   const [lastOutTime, setLastOutTime] = useState('--:--');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toggleDrawer } = React.useContext(DrawerContext);
   const router = useRouter();
   const windowHeight = Dimensions.get('window').height;
+
+  // Load punch data on mount
+  useEffect(() => {
+    loadPunchData();
+    
+    // Check for day change every minute
+    const interval = setInterval(checkDayChange, 60000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const loadPunchData = async () => {
+    try {
+      const data = await secureStore.getItem('punchData');
+      if (data) {
+        const punchData: PunchData = JSON.parse(data);
+        const today = new Date().toDateString();
+        
+        // Reset if it's a new day
+        if (punchData.lastPunchDate !== today) {
+          await resetPunchData();
+        } else {
+          setIsPunchedIn(punchData.isPunchedIn);
+          setLastInTime(punchData.lastInTime);
+          setLastOutTime(punchData.lastOutTime);
+        }
+      }
+    } catch (error) {
+      console.error('Error loading punch data:', error);
+    }
+  };
+
+  const savePunchData = async (data: PunchData) => {
+    try {
+      await secureStore.setItem('punchData', JSON.stringify(data));
+    } catch (error) {
+      console.error('Error saving punch data:', error);
+    }
+  };
+
+  const resetPunchData = async () => {
+    const defaultData: PunchData = {
+      isPunchedIn: false,
+      lastInTime: '--:--',
+      lastOutTime: '--:--',
+      lastPunchDate: new Date().toDateString()
+    };
+    
+    await savePunchData(defaultData);
+    setIsPunchedIn(false);
+    setLastInTime('--:--');
+    setLastOutTime('--:--');
+  };
+
+  const checkDayChange = async () => {
+    const data = await secureStore.getItem('punchData');
+    if (data) {
+      const punchData: PunchData = JSON.parse(data);
+      const today = new Date().toDateString();
+      
+      if (punchData.lastPunchDate !== today) {
+        await resetPunchData();
+      }
+    }
+  };
 
   const getCurrentTime = () => {
     const now = new Date();
@@ -26,14 +99,32 @@ export default function DashboardScreen() {
     return `${hours}:${formattedMinutes} ${ampm}`;
   };
 
-  const handlePunch = () => {
-    const currentTime = getCurrentTime();
-    if (isPunchedIn) {
-      setLastOutTime(currentTime);
-    } else {
-      setLastInTime(currentTime);
+  const handlePunch = async () => {
+    if (isSubmitting) return;
+    
+    setIsSubmitting(true);
+    try {
+      const currentTime = getCurrentTime();
+      const newPunchData: PunchData = {
+        isPunchedIn: !isPunchedIn,
+        lastInTime: !isPunchedIn ? currentTime : lastInTime,
+        lastOutTime: isPunchedIn ? currentTime : lastOutTime,
+        lastPunchDate: new Date().toDateString()
+      };
+      
+      await savePunchData(newPunchData);
+      
+      if (isPunchedIn) {
+        setLastOutTime(currentTime);
+      } else {
+        setLastInTime(currentTime);
+      }
+      setIsPunchedIn(!isPunchedIn);
+    } catch (error) {
+      console.error('Error handling punch:', error);
+    } finally {
+      setIsSubmitting(false);
     }
-    setIsPunchedIn(!isPunchedIn);
   };
 
   const ProgressCard = ({ title, value }) => (
@@ -67,11 +158,19 @@ export default function DashboardScreen() {
         showsVerticalScrollIndicator={false}
       >
         <TouchableOpacity 
-          style={[styles.punchButton, isPunchedIn ? styles.punchOutButton : styles.punchInButton]}
+          style={[
+            styles.punchButton, 
+            isPunchedIn ? styles.punchOutButton : styles.punchInButton,
+            isSubmitting && styles.punchButtonDisabled
+          ]}
           onPress={handlePunch}
+          disabled={isSubmitting}
         >
-          <Text style={styles.punchButtonText}>
-            {isPunchedIn ? 'Punch Out' : 'Punch In'}
+          <Text style={[
+            styles.punchButtonText,
+            isSubmitting && styles.punchButtonTextDisabled
+          ]}>
+            {isSubmitting ? 'Processing...' : isPunchedIn ? 'Punch Out' : 'Punch In'}
           </Text>
         </TouchableOpacity>
 
@@ -187,6 +286,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 8,
     elevation: 5,
+  },
+  punchButtonDisabled: {
+    opacity: 0.7,
+  },
+  punchButtonTextDisabled: {
+    opacity: 0.7,
   },
   punchInButton: {
     backgroundColor: '#8CC63F',
