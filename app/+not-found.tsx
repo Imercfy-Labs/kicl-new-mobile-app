@@ -9,7 +9,7 @@ export default function NotFoundScreen() {
     if (router.canGoBack()) {
       router.back();
     } else {
-      router.replace('/(auth)/');
+      router.replace('/(tabs)/dashboard');
     }
   };
 
@@ -27,7 +27,7 @@ export default function NotFoundScreen() {
             This feature is currently under development and will be available soon.
           </Text>
           <Text style={styles.tapText}>
-            {router.canGoBack() ? 'Tap anywhere to go back' : 'Tap anywhere to go to login'}
+            {router.canGoBack() ? 'Tap anywhere to go back' : 'Tap anywhere to go to dashboard'}
           </Text>
         </View>
       </TouchableOpacity>
