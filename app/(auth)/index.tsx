@@ -24,7 +24,7 @@ export default function LoginScreen() {
     <View style={styles.container}>
        {/* Logo Image */}
       <Image 
-        source={require('../assets/images/kicl-logo.png')} 
+        source={require('../../assets/images/kicl-logo.png')} 
         style={styles.logo}
         resizeMode="contain"
       />
