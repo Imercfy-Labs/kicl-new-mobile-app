@@ -3,10 +3,10 @@ export default {
   slug: 'kicl-mobile-app',
   version: '1.0.0',
   orientation: 'portrait',
-  // icon: './assets/images/icon.png',
+  icon: './assets/images/kicl-logo.png',
   userInterfaceStyle: 'light',
   splash: {
-    // image: './assets/images/icon.png',
+    image: './assets/images/kicl-logo.png',
     resizeMode: 'contain',
     backgroundColor: '#ffffff'
   },
@@ -22,13 +22,13 @@ export default {
   },
   android: {
     adaptiveIcon: {
-      // foregroundImage: './assets/images/favicon.png',
+      foregroundImage: './assets/images/kicl-logo.png',
       backgroundColor: '#FFFFFF'
     },
     package: 'com.kicl.mobile'
   },
   web: {
-    // favicon: './assets/images/favicon.png',
+    favicon: './assets/images/kicl-logo.png',
     bundler: 'metro'
   },
   extra: {
