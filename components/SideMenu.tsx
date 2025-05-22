@@ -70,7 +70,7 @@ export default function SideMenu({ activePath, userInfo, onClose }: SideMenuProp
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Logo size="medium" showText={true} />
+        <Logo size="high" showText={true} />
       </View>
 
       <View style={styles.userInfo}>
