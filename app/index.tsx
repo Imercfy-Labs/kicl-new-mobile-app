@@ -45,7 +45,7 @@ export default function SplashScreen() {
       end={{ x: 0, y: 1 }}
     >
       <Animated.View style={[styles.logoContainer, animatedStyle]}>
-        <Logo size="large" />
+        <Logo size="large" showText={true} />
       </Animated.View>
     </LinearGradient>
   );
