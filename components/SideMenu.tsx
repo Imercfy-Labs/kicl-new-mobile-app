@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Platform, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Platform, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { LogOut, LayoutDashboard, Users, ClipboardList, Package, Chrome as Home, IndianRupee } from 'lucide-react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import Logo from '@/components/Logo';
 
 interface SideMenuProps {
   activePath: string;
@@ -69,12 +70,7 @@ export default function SideMenu({ activePath, userInfo, onClose }: SideMenuProp
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Image
-          source={{ uri: 'https://images.pexels.com/photos/2123375/pexels-photo-2123375.jpeg' }}
-          style={styles.logo}
-        />
-        <Text style={styles.logoText}>TK TECH KOTHARI</Text>
-        <Text style={styles.subText}>A UNIT OF KOTHARI INDUSTRIAL CORPORATION LIMITED</Text>
+        <Logo size="medium" showText={true} />
       </View>
 
       <View style={styles.userInfo}>
@@ -214,22 +210,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#D1E7DD',
   },
-  logo: {
-    width: 60,
-    height: 60,
-    marginBottom: 10,
-  },
-  logoText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#2E3192',
-    marginBottom: 4,
-  },
-  subText: {
-    fontSize: 8,
-    color: '#2E3192',
-    textAlign: 'center',
-  },
   userInfo: {
     padding: 20,
     alignItems: 'center',
@@ -325,5 +305,3 @@ const styles = StyleSheet.create({
     color: '#000',
   },
 });
-
-export default SideMenu
