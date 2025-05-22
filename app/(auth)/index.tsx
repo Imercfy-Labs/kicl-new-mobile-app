@@ -91,6 +91,12 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     alignSelf: 'center',
   },
+  logo: {
+  width: 120,
+  height: 120,
+  marginBottom: 20,
+  alignSelf: 'center',
+},
   form: {
     width: '100%',
     maxWidth: Platform.OS === 'web' ? 400 : undefined,
