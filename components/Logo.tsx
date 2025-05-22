@@ -3,17 +3,17 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 
 interface LogoProps {
   showText?: boolean;
-  size?: 'small' | 'medium' | 'large';
+  size?: 'small' | 'medium' | 'large' | 'high';
 }
 
 export default function Logo({ showText = true, size = 'medium' }: LogoProps) {
-  const logoSize = size === 'small' ? 40 : size === 'medium' ? 60 : 100;
+  const logoSize = size === 'small' ? 40 : size === 'medium' ? 60 : size === 'large' ? 100 : 80;
   
   return (
     <View style={styles.container}>
       <View style={[styles.logoContainer, { width: logoSize, height: logoSize }]}>
         <Image 
-          source={{ uri: 'https://images.pexels.com/photos/1002703/pexels-photo-1002703.jpeg' }}
+          source={require('../assets/images/kicl-logo.png')}
           style={[styles.logo, { width: logoSize * 0.8, height: logoSize * 0.8 }]}
           resizeMode="contain"
         />
