@@ -13,7 +13,7 @@ export default function Logo({ showText = true, size = 'medium' }: LogoProps) {
     <View style={styles.container}>
       <View style={[styles.logoContainer, { width: logoSize, height: logoSize }]}>
         <Image 
-          source={require('@/assets/images/icon.png')}
+          source={{ uri: 'https://images.pexels.com/photos/1002703/pexels-photo-1002703.jpeg' }}
           style={[styles.logo, { width: logoSize * 0.8, height: logoSize * 0.8 }]}
           resizeMode="contain"
         />
