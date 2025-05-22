@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: Platform.OS === 'ios' ? 60 : 40,
     marginBottom: 40,
+    alignSelf: 'center',
   },
   form: {
     width: '100%',
