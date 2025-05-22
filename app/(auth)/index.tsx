@@ -22,6 +22,12 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
+       {/* Logo Image */}
+      <Image 
+        source={require('../assets/images/kicl-logo.png')} 
+        style={styles.logo}
+        resizeMode="contain"
+      />
       <Text style={styles.title}>Welcome!</Text>
       
       <View style={styles.form}>
