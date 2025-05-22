@@ -20,8 +20,8 @@ export default function Logo({ showText = true, size = 'medium' }: LogoProps) {
       </View>
       {showText && (
         <View style={styles.textContainer}>
-          <Text style={styles.title}>TK TECH KOTHARI</Text>
-          <Text style={styles.subtitle}>A UNIT OF KOTHARI INDUSTRIAL CORPORATION LIMITED</Text>
+          <Text style={styles.title}>KOTHARI INDUSTRIAL CORPORATION LIMITED</Text>
+          <Text style={styles.subtitle}>KICL FERTILIZERS</Text>
         </View>
       )}
     </View>
@@ -55,15 +55,16 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   title: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '600',
     color: '#2E3192',
     textAlign: 'center',
   },
   subtitle: {
-    fontSize: 8,
+    fontSize: 12,
     color: '#2E3192',
     textAlign: 'center',
     marginTop: 4,
+    fontWeight: '500',
   },
 });
