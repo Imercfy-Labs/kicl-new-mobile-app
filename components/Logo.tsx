@@ -13,7 +13,7 @@ export default function Logo({ showText = true, size = 'medium' }: LogoProps) {
     <View style={styles.container}>
       <View style={[styles.logoContainer, { width: logoSize, height: logoSize }]}>
         <Image 
-          source={{ uri: 'https://raw.githubusercontent.com/Imercfy-Labs/kicl-new-mobile-app/main/assets/images/icon.png' }}
+          source={{ uri: 'https://raw.githubusercontent.com/Imercfy-Labs/kicl-new-mobile-app/main/assets/images/kicl-logo.png' }}
           style={[styles.logo, { width: logoSize * 0.8, height: logoSize * 0.8 }]}
           resizeMode="contain"
         />
